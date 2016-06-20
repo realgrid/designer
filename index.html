@@ -6,20 +6,21 @@
 	position: relative;
     top: 20px;
     left: 10px;
-	width:600px;
-	height: 600px;
+	width: 1200px;
+	height: 440px;
 }
 #contents{
 	position: relative;
-    top: -535px;
+    top: -720px;
     left: 660px;
 	width: 500px;
 	height: 600px;
 }
 #d_right{
-	width: 100px;
+	top: -100px;
+    left: 10px;
+	width: 600px;
 	height: 700px;
-	float: left;
 }
 </style>
 <meta charset="utf-8">
@@ -53,19 +54,7 @@ $(document).ready( function() {
 
 	grdMain.onCurrentChanged =  function (grid, newIndex) {
 		grdMain.commit();
-		var fieldType = dataProvider.getFieldValues("field5");
-
-		for(var i = 0; i < fieldType.length; i++){
-			if (fieldType[i] == "number"){
-				grdMain.setValue(i, "field6", "number");
-			}else if (fieldType[i] == "text"){
-				grdMain.setValue(i, "field6", "");
-			}else if (fieldType[i] == "datetime"){
-				grdMain.setValue(i, "field6", "yyyyMMdd");
-			}else if (fieldType[i] == "boolean"){
-				grdMain.setValue(i, "field6", "거짓,f,false:참,t,true:0")
-			}
-		}
+		typeSeting();
 	};
 
 })
@@ -84,7 +73,18 @@ function setFields(provider) {
 		fieldName: "field5"
 	}, {
 		fieldName: "field6"
+	}, {
+		fieldName: "field7"
+	}, {
+		fieldName: "field8"
+	}, {
+		fieldName: "field9"
+	}, {
+		fieldName: "field10"
+	}, {
+		fieldName: "field11"
 	}];
+
 	provider.setFields(fields);
 }
 
@@ -121,25 +121,75 @@ function setColumns(grid) {
 		},
 		width: 100
 	}, {
-		name: "col5",
-		fieldName: "field5",
-		header: {
-			text: "dataType"
-		},
-		lookupDisplay: true,
-        values: ["text", "boolean", "number", "datetime"],
-		editor: {
-            type: "dropDown",
-            dropDownCount: 4
-        },
-		width: 100
+		type: "group",
+		name: "fieldType",
+		width: 100,
+		columns: [{
+			name: "col5",
+			fieldName: "field5",
+			header: {
+				text: "dataType"
+			},
+			lookupDisplay: true,
+	        values: ["text", "boolean", "number", "datetime"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4
+	        },
+			width: 100
+		}]
 	}, {
-		name: "col6",
-		fieldName: "field6",
-		header: {
-			text: "editor"
-		},
-		width: 100
+		type: "group",
+		name: "column.editor",
+		width: 300,
+		columns: [{
+			name: "col6",
+			fieldName: "field6",
+			header: {
+				text: "number"
+			},
+			width: 100
+		}, {
+			name: "col7",
+			fieldName: "field7",
+			header: {
+				text: "booleanFormat"
+			},
+			width: 100
+		}, {
+			name: "col8",
+			fieldName: "field8",
+			header: {
+				text: "datetimeFormat"
+			},
+			width: 100
+		}]
+	}, {
+		type: "group",
+		name: "column.styles",
+		width: 300,
+		columns: [{
+			name: "col9",
+			fieldName: "field9",
+			header: {
+				text: "numberFormat"
+			},
+			width: 100
+		}, {
+			name: "col10",
+			fieldName: "field10",
+			header: {
+				text: "booleanFormat"
+			},
+			width: 100
+		}, {
+			name: "col11",
+			fieldName: "field11",
+			header: {
+				text: "datetimeFormat"
+			},
+			width: 100
+		}]
 	}]
 
 	grid.setColumns(columns);
@@ -162,7 +212,41 @@ function sortingOptions(grid) {
 	grdMain.setSortingOptions(options)
 }
 
+function typeSeting() {
+	var fieldType = dataProvider.getFieldValues("field5");
+
+	for(var i = 0; i < fieldType.length; i++){
+		if (fieldType[i] == "number"){
+			grdMain.setValue(i, "field6", "number");
+			grdMain.setValue(i, "field7", "");
+			grdMain.setValue(i, "field8", "");
+			grdMain.setValue(i, "field9", "#,000");
+			grdMain.setValue(i, "field10", "");
+			grdMain.setValue(i, "field11", "");
+		}else if (fieldType[i] == "text"){
+		}else if (fieldType[i] == "boolean"){
+			grdMain.setValue(i, "field6", "");
+			grdMain.setValue(i, "field7", "거짓,f,false:참,t,true:0");
+			grdMain.setValue(i, "field8", "");
+			grdMain.setValue(i, "field9", "");
+			grdMain.setValue(i, "field10", "거짓:참");
+			grdMain.setValue(i, "field11", "");			
+		}else if (fieldType[i] == "datetime"){
+			grdMain.setValue(i, "field6", "");
+			grdMain.setValue(i, "field7", "");
+			grdMain.setValue(i, "field8", "yyyyMMdd");
+			grdMain.setValue(i, "field9", "");
+			grdMain.setValue(i, "field10", "");
+			grdMain.setValue(i, "field11", "yyyy.MM.dd");				
+		}
+	}
+}
+
 function addColumn(){
+	grdMain.commit();
+	if (grdMain.getItemCount()> 0){
+		typeSeting();
+	}
 	num++;
 	var row = {
 		field1: "field" + num,
@@ -267,12 +351,17 @@ function createFields() {
 
 function createColumns() {
 	var itemCount = grdMain.getItemCount();
-	var fields = dataProvider.getFieldValues("field1")
-	var columns = dataProvider.getFieldValues("field2")
-	var colWidth = dataProvider.getFieldValues("field3")
-	var headText = dataProvider.getFieldValues("field4")
-	var dataType = dataProvider.getFieldValues("field5")
-	var editorType = dataProvider.getFieldValues("field6")
+	var fields = dataProvider.getFieldValues("field1");
+	var columns = dataProvider.getFieldValues("field2");
+	var colWidth = dataProvider.getFieldValues("field3");
+	var headText = dataProvider.getFieldValues("field4");
+	var dataType = dataProvider.getFieldValues("field5");
+	var eNum = dataProvider.getFieldValues("field6");
+	var eBool = dataProvider.getFieldValues("field7");
+	var eDate = dataProvider.getFieldValues("field8");
+	var sNum = dataProvider.getFieldValues("field9");
+	var sBool = dataProvider.getFieldValues("field10");
+	var sDate = dataProvider.getFieldValues("field11");
 	var addColumns = 'function setColumns(grid) {\n    var columns = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
@@ -285,26 +374,26 @@ function createColumns() {
 			if(dataType[i].length > 0){
 				if (dataType[i] == "boolean"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + eBool[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "거짓:참"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + sBool[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "' + eNum[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "#,000"\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "' + sNum[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + eDate[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "yyyy.MM.dd"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + sDate[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 			}
@@ -317,29 +406,29 @@ function createColumns() {
 			wSpace2 + 'header: {\n' +
 			wSpace1 + wSpace2 + 'text: "' + headText[i] + '"\n' +
 			wSpace2 + '},\n' 
-			if(dataType[i].length > 0){
+			if(dataType[i].length > 0){ //컬럼 시작
 				if (dataType[i] == "boolean"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + eBool[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "거짓:참"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + sBool[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "' + eNum[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "#,000"\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "' + sNum[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + editorType[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + eDate[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "yyyy.MM.dd"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + sDate[i] + '",\n' +
 					wSpace2 + '},\n'
 				}
 			}
@@ -353,6 +442,10 @@ function createColumns() {
 }
 
 function fullSource() {
+	grdMain.commit();
+	if (grdMain.getItemCount()> 0){
+		typeSeting();
+	}
 	grdMain.commit();
 	dataProvider.clearRowStates();
 
@@ -377,7 +470,7 @@ function buidPreview() {
 </head>
 <body>
 <div id="d_left">
-	<center><h3>RealGridDesigner</h3></center>
+	<center><h3>RealGridDesigner</h3>
 	<br/>
 	div_id:
 	<input type="text" id="divId" style="width:90px;" value="realgrid">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -388,11 +481,13 @@ function buidPreview() {
         <option>1.0.14</option>
     </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	library경로:
-	<input type="text" id="libraryRoot" style="width:133px;" value="/scripts/"><br/><br/>
-	<span style="float:right">
+	<input type="text" id="libraryRoot" style="width:133px;" value="/scripts/">
 	<input type="button" onclick="javascript:addColumn();"value="컬럼 추가">
-	<input type="button" onclick="javascript:delColumn();" value="컬럼 삭제"><br/></span>
-	<div id="realgrid" style="width:600px; height:300px;"></div><br/><br/>
+	<input type="button" onclick="javascript:delColumn();" value="컬럼 삭제"><br/>
+	</center>
+	<div id="realgrid" style="width:1250px; height:300px;"></div><br/><br/>
+	</div>
+<div id="d_right">
 	<center><h3>RealGrid HTML Text 출력</h3></center>
 	<span style="float:right">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
