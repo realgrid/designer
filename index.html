@@ -49,6 +49,7 @@ $(document).ready( function() {
 	setFields(dataProvider);
 	setColumns(grdMain);
 	setOptions(grdMain);
+	sortingOptions(grdMain);
 
 	grdMain.onCurrentChanged =  function (grid, newIndex) {
 		grdMain.commit();
@@ -153,6 +154,12 @@ function setOptions(grid) {
 			visible: false
 		}
 	})
+}
+
+function sortingOptions(grid) {
+	var options = {};
+	options.enabled = false;
+	grdMain.setSortingOptions(options)
 }
 
 function addColumn(){
