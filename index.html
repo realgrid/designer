@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+#d_left{
+	position: relative;
+    top: 20px;
+    left: 10px;
+	width:600px;
+	height: 600px;
+}
+#contents{
+	position: relative;
+    top: -535px;
+    left: 660px;
+	width: 500px;
+	height: 600px;
+}
+#d_right{
+	width: 100px;
+	height: 700px;
+	float: left;
+}
+</style>
+<meta charset="utf-8">
+<title>RealGrid Designer 0.1</title>
+<script type="text/javascript" src="/scripts/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/scripts/realgridjs-lic.js"></script>
+
+<script type="text/javascript" src="/scripts/realgridjs_eval.1.1.16.min.js"></script>
+<script type="text/javascript" src="/scripts/realgridjs-api.1.1.16.js"></script>
+<script type="text/javascript" src="/scripts/jszip.min.js"></script>
+
+<script>
+var grdMain;
+var dataProvider;
+var num = 0;
+var wSpace1 = "    ";
+var wSpace2 = "        ";
+
+$(document).ready( function() {
+	RealGridJS.setTrace(false);
+	RealGridJS.setRootContext("/scripts");
+
+	dataProvider = new RealGridJS.LocalDataProvider();
+	grdMain = new RealGridJS.GridView("realgrid");
+	grdMain.setDataSource(dataProvider);
+
+	setFields(dataProvider);
+	setColumns(grdMain);
+	setOptions(grdMain);
+
+	grdMain.onCurrentChanged =  function (grid, newIndex) {
+		grdMain.commit();
+		var fieldType = dataProvider.getFieldValues("field5");
+
+		for(var i = 0; i < fieldType.length; i++){
+			if (fieldType[i] == "number"){
+				grdMain.setValue(i, "field6", "number");
+			}else if (fieldType[i] == "text"){
+				grdMain.setValue(i, "field6", "");
+			}else if (fieldType[i] == "datetime"){
+				grdMain.setValue(i, "field6", "yyyyMMdd");
+			}else if (fieldType[i] == "boolean"){
+				grdMain.setValue(i, "field6", "거짓,f,false:참,t,true:0")
+			}
+		}
+	};
+
+})
+
+function setFields(provider) {
+	var fields = [{
+		fieldName: "field1"
+	}, {
+		fieldName: "field2"
+	}, {
+		fieldName: "field3",
+		dataType: "number"
+	}, {
+		fieldName: "field4"
+	}, {
+		fieldName: "field5"
+	}, {
+		fieldName: "field6"
+	}];
+
+	provider.setFields(fields);
+}
+
+function setColumns(grid) {
+	var columns = [{
+		name: "col1",
+		fieldName: "field1",
+		header: {
+			text: "필드"
+		},
+		width: 90
+	},{
+		name: "col2",
+		fieldName: "field2",
+		header: {
+			text: "컬럼"
+		},
+		width: 100
+	}, {
+		name: "col3",
+		fieldName: "field3",
+		header: {
+			text: "width"
+		},
+		editor: {
+			type: "number"
+		},
+		width: 50
+	}, {
+		name: "col4",
+		fieldName: "field4",
+		header: {
+			text: "head.text"
+		},
+		width: 100
+	}, {
+		name: "col5",
+		fieldName: "field5",
+		header: {
+			text: "dataType"
+		},
+		lookupDisplay: true,
+        values: ["text", "boolean", "number", "datetime"],
+		editor: {
+            type: "dropDown",
+            dropDownCount: 4
+        },
+		width: 100
+	}, {
+		name: "col6",
+		fieldName: "field6",
+		header: {
+			text: "editor"
+		},
+		width: 100
+	}]
+
+	grid.setColumns(columns);
+}
+
+function setOptions(grid) {
+	grid.setOptions({
+		panel:{
+			visible: false
+		},
+		checkBar: {
+			visible: false
+		}
+	})
+}
+
+function addColumn(){
+	num++;
+	var row = {
+		field1: "field" + num,
+		field2: "column" + num,
+		field3: "100",
+		field4: "컬럼해더" + num,
+		field5: "text",
+		field6: ""
+	}
+
+	dataProvider.addRow(row);
+}
+
+function delColumn(){
+	dataProvider.setOptions({softDeleting:false});
+    dataProvider.removeRow(grdMain.getCurrent().dataRow);
+}
+
+function getHtml() {
+	var sHtml = '<!DOCTYPE html>\n<html>\n'
+	var eHtml = '</html>'
+	var html = sHtml.concat(getHead(), eHtml);
+	return html;
+}
+
+function getHead() {
+	var sHead = '<head>\n<title> realgridDesignerVer0.1 </title>\n<meta charset="utf-8">\n';
+	var eHead = '</head>\n'
+	var head = sHead.concat(eHead, getBody());
+	return head;
+}
+
+function getBody() {
+	var sBody = '<body>\n<div id=' + '"' + document.getElementById('divId').value + '"' + ' style="width:500px; height:280px;"></div>\n'
+	var eBody ='</body>\n'
+	var body = sBody.concat(jsImport(), setScript(), eBody);
+	return body;
+}
+
+function jsImport() {
+	var jquery = '<script type="text/javascript" src="' + document.getElementById('libraryRoot').value + 'jquery-1.11.2.min.js"></script' + '>\n'
+	var lic = '<script type="text/javascript" src="' + document.getElementById('libraryRoot').value + 'realgridjs-lic.js"></script' + '>\n'
+	var eval = '<script type="text/javascript" src="' + document.getElementById('libraryRoot').value + 'realgridjs_eval.' + document.getElementById('jsVersion').value + '.min.js"' + "></script" + '>\n'
+	var api = '<script type="text/javascript" src="' + document.getElementById('libraryRoot').value + 'realgridjs-api.' + document.getElementById('jsVersion').value +'.js"></script' + '>\n'
+	var jszip = '<script type="text/javascript" src="' + document.getElementById('libraryRoot').value + 'jszip.min.js"></script' + '>\n'
+	var jsImport = jquery + lic + eval + api + jszip;
+	return jsImport;
+}
+
+function setScript() {
+	var sScript = "<script>\n"
+	var eScript = '</' + 'script>\n'
+	var mainScript = sScript.concat(docReady(), createFields(), createColumns(), eScript);
+	return mainScript; 
+}
+
+function docReady() {
+	var ready = 'var grdMain;\nvar dataProvider;\n\n' + 
+	'$(document).ready( function() {\n' +
+	wSpace1 + 'RealGridJS.setTrace(false);\n' + 
+	wSpace1 + 'RealGridJS.setRootContext("' + document.getElementById('libraryRoot').value + '");\n' +
+	wSpace1 + 'dataProvider = new RealGridJS.LocalDataProvider();\n' +
+	wSpace1 + 'grdMain = new RealGridJS.GridView("' + document.getElementById('divId').value + '");\n' +
+	wSpace1 + 'grdMain.setDataSource(dataProvider);\n\n' +
+	wSpace1 + 'setFields(dataProvider);\n' +
+	wSpace1 + 'setColumns(grdMain);\n' +
+	wSpace1 + 'grdMain.setOptions({\n' +
+	wSpace2 + 'edit: {\n' + 
+	wSpace2 + wSpace1 + 'insertable: true,\n' +
+	wSpace2 + wSpace1 + 'appendable: true\n' +
+	wSpace2 + '}\n' + 
+	wSpace1 + '})\n' +
+	'})\n\n'
+	return ready;
+}
+
+function createFields() {
+	var itemCount = grdMain.getItemCount();
+	var fields = dataProvider.getFieldValues("field1")
+	var dataType = dataProvider.getFieldValues("field5")
+	var addFields = 'function setFields(provider) {\n' +
+	wSpace1 + 'var fields = ['
+	for (var i = 0; i < itemCount; i++){
+		if(i < itemCount -1){
+			addFields +='{\n' +
+			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
+			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
+			wSpace1 + '},'
+		}
+		if(i === itemCount-1){
+			addFields +='{\n' +
+			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
+			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
+			wSpace1 + '}'
+		}
+	}
+	addFields += '];\n\n' +
+		wSpace1 + 'provider.setFields(fields);\n' +
+		'}\n\n'
+	return addFields;
+}
+
+function createColumns() {
+	var itemCount = grdMain.getItemCount();
+	var fields = dataProvider.getFieldValues("field1")
+	var columns = dataProvider.getFieldValues("field2")
+	var colWidth = dataProvider.getFieldValues("field3")
+	var headText = dataProvider.getFieldValues("field4")
+	var dataType = dataProvider.getFieldValues("field5")
+	var editorType = dataProvider.getFieldValues("field6")
+	var addColumns = 'function setColumns(grid) {\n    var columns = ['
+	for (var i = 0; i < itemCount; i++){
+		if(i < itemCount -1){
+			addColumns += '{\n' +
+			wSpace2 + 'name: "' + columns[i] + '",\n' +
+			wSpace2 + 'fieldName: "' + fields[i] + '",\n' +
+			wSpace2 + 'header: {\n' +
+			wSpace1 + wSpace2 + 'text: "' + headText[i] + '"\n' +
+			wSpace2 + '},\n'
+			if(dataType[i].length > 0){
+				if (dataType[i] == "boolean"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "거짓:참"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "number"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'type: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "#,000"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "datetime"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "yyyy.MM.dd"\n' +
+					wSpace2 + '},\n'
+				}
+			}
+			addColumns += wSpace2 + 'width: "' + colWidth[i] + '"\n    },'
+		}
+		if(i === itemCount -1){
+			addColumns += '{\n' +
+			wSpace2 + 'name: "' + columns[i] + '",\n' +
+			wSpace2 + 'fieldName: "' + fields[i] + '",\n' +
+			wSpace2 + 'header: {\n' +
+			wSpace1 + wSpace2 + 'text: "' + headText[i] + '"\n' +
+			wSpace2 + '},\n' 
+			if(dataType[i].length > 0){
+				if (dataType[i] == "boolean"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "거짓:참"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "number"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'type: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "#,000"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "datetime"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + editorType[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "yyyy.MM.dd"\n' +
+					wSpace2 + '},\n'
+				}
+			}
+			addColumns += wSpace2 + 'width: "' + colWidth[i] + '"\n    }'
+		}
+	}
+	addColumns += ']\n\n' +
+	wSpace1 + 'grid.setColumns(columns);\n' +
+	'}\n'
+	return addColumns;
+}
+
+function fullSource() {
+	grdMain.commit();
+	dataProvider.clearRowStates();
+
+	var full = getHtml();
+	$("#sourceCode").text(full);
+}
+
+function buidPreview() {
+	fullSource();
+	var designerView = getHtml();
+	var iframe = document.getElementById("resultGrid");
+	var doc = iframe.contentDocument;
+
+ 	doc.open();
+  	doc.write(designerView);
+  	doc.close();
+}
+
+
+
+</script>
+</head>
+<body>
+<div id="d_left">
+	<center><h3>RealGridDesigner</h3></center>
+	<br/>
+	div_id:
+	<input type="text" id="divId" style="width:90px;" value="realgrid">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	realgridVersion:
+	<select id="jsVersion">
+        <option>1.1.16</option>
+        <option>1.0.15</option>
+        <option>1.0.14</option>
+    </select>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	library경로:
+	<input type="text" id="libraryRoot" style="width:133px;" value="/scripts/"><br/><br/>
+	<span style="float:right">
+	<input type="button" onclick="javascript:addColumn();"value="컬럼 추가">
+	<input type="button" onclick="javascript:delColumn();" value="컬럼 삭제"><br/></span>
+	<div id="realgrid" style="width:600px; height:300px;"></div><br/><br/>
+	<center><h3>RealGrid HTML Text 출력</h3></center>
+	<span style="float:right">
+	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
+	<textarea id="sourceCode"readonly="readonly" rows="30" cols="91">
+	</textarea>
+</div>
+<div id="contents">
+	<center><h4>RealGrid 출력화면 미리보기</h4></center>
+	<input type="button" onclick="javascript:buidPreview();" value="designerView"><br/>
+	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
+</div>
+</body>
+</html>
