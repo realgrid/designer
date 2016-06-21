@@ -148,6 +148,10 @@ function setColumns(grid) {
 			header: {
 				text: "number"
 			},
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
 			width: 100
 		}, {
 			name: "col7",
@@ -155,6 +159,10 @@ function setColumns(grid) {
 			header: {
 				text: "booleanFormat"
 			},
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
 			width: 100
 		}, {
 			name: "col8",
@@ -162,6 +170,10 @@ function setColumns(grid) {
 			header: {
 				text: "datetimeFormat"
 			},
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
 			width: 100
 		}]
 	}, {
@@ -174,13 +186,21 @@ function setColumns(grid) {
 			header: {
 				text: "numberFormat"
 			},
-			width: 100
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
+			width: 100 
 		}, {
 			name: "col10",
 			fieldName: "field10",
 			header: {
 				text: "booleanFormat"
 			},
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
 			width: 100
 		}, {
 			name: "col11",
@@ -188,6 +208,10 @@ function setColumns(grid) {
 			header: {
 				text: "datetimeFormat"
 			},
+			dynamicStyles: [{
+				criteria: "value = ''",
+				styles: "background=#11999999"
+			}],
 			width: 100
 		}]
 	}]
@@ -217,27 +241,39 @@ function typeSeting() {
 
 	for(var i = 0; i < fieldType.length; i++){
 		if (fieldType[i] == "number"){
-			grdMain.setValue(i, "field6", "number");
-			grdMain.setValue(i, "field7", "");
-			grdMain.setValue(i, "field8", "");
-			grdMain.setValue(i, "field9", "#,000");
-			grdMain.setValue(i, "field10", "");
-			grdMain.setValue(i, "field11", "");
+			if (grdMain.getValue(i, "field6")=="" && grdMain.getValue(i,"field9")==""){
+				grdMain.setValue(i, "field6", "number");
+				grdMain.setValue(i, "field7", "");
+				grdMain.setValue(i, "field8", "");
+				grdMain.setValue(i, "field9", "#,000");
+				grdMain.setValue(i, "field10", "");
+				grdMain.setValue(i, "field11", "");
+			}
 		}else if (fieldType[i] == "text"){
-		}else if (fieldType[i] == "boolean"){
-			grdMain.setValue(i, "field6", "");
-			grdMain.setValue(i, "field7", "거짓,f,false:참,t,true:0");
-			grdMain.setValue(i, "field8", "");
-			grdMain.setValue(i, "field9", "");
-			grdMain.setValue(i, "field10", "거짓:참");
-			grdMain.setValue(i, "field11", "");			
-		}else if (fieldType[i] == "datetime"){
 			grdMain.setValue(i, "field6", "");
 			grdMain.setValue(i, "field7", "");
-			grdMain.setValue(i, "field8", "yyyyMMdd");
+			grdMain.setValue(i, "field8", "");
 			grdMain.setValue(i, "field9", "");
 			grdMain.setValue(i, "field10", "");
-			grdMain.setValue(i, "field11", "yyyy.MM.dd");				
+			grdMain.setValue(i, "field11", "");	
+		}else if (fieldType[i] == "boolean"){
+			if (grdMain.getValue(i, "field7")=="" && grdMain.getValue(i,"field10")==""){
+				grdMain.setValue(i, "field6", "");
+				grdMain.setValue(i, "field7", "거짓,f,false:참,t,true:0");
+				grdMain.setValue(i, "field8", "");
+				grdMain.setValue(i, "field9", "");
+				grdMain.setValue(i, "field10", "거짓:참");
+				grdMain.setValue(i, "field11", "");	
+			}	
+		}else if (fieldType[i] == "datetime"){
+			if (grdMain.getValue(i, "field8")=="" && grdMain.getValue(i,"field11")==""){
+				grdMain.setValue(i, "field6", "");
+				grdMain.setValue(i, "field7", "");
+				grdMain.setValue(i, "field8", "yyyyMMdd");
+				grdMain.setValue(i, "field9", "");
+				grdMain.setValue(i, "field10", "");
+				grdMain.setValue(i, "field11", "yyyy.MM.dd");	
+			}		
 		}
 	}
 }
@@ -254,7 +290,12 @@ function addColumn(){
 		field3: "100",
 		field4: "컬럼해더" + num,
 		field5: "text",
-		field6: ""
+		field6: "",
+		field7: "",
+		field8: "",
+		field9: "",
+		field10: "",
+		field11: ""
 	}
 
 	dataProvider.addRow(row);
@@ -331,13 +372,13 @@ function createFields() {
 	wSpace1 + 'var fields = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
-			addFields +='{\n' +
+			addFields += '{\n' +
 			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
 			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
 			wSpace1 + '},'
 		}
 		if(i === itemCount-1){
-			addFields +='{\n' +
+			addFields += '{\n' +
 			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
 			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
 			wSpace1 + '}'
@@ -463,8 +504,6 @@ function buidPreview() {
   	doc.write(designerView);
   	doc.close();
 }
-
-
 
 </script>
 </head>
