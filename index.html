@@ -51,12 +51,28 @@ $(document).ready( function() {
 	setColumns(grdMain);
 	setOptions(grdMain);
 	sortingOptions(grdMain);
+	addStyles(grdMain);
 
-	grdMain.onCurrentChanged =  function (grid, newIndex) {
-		grdMain.commit();
-		typeSeting();
+	grdMain.onCellEdited =  function (grid, itemIndex, dataRow, field) {
+		if(field == 4){
+			grdMain.commit();
+			typeSeting();
+		}
+		
+		if(grdMain.getValue(0,4) == 'text'){
+		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
+		}else if(grdMain.getValue(0,4) == 'boolean'){
+		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
+		grdMain.setCellStyles(0, [6,9], "style02");
+		}else if(grdMain.getValue(0,4) == 'number'){
+		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
+		grdMain.setCellStyles(0, [5,8], "style02");
+		}else if(grdMain.getValue(0,4) == 'datetime'){
+		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
+		grdMain.setCellStyles(0, [7,10], "style02");			
+		}
+
 	};
-
 })
 
 function setFields(provider) {
@@ -134,7 +150,8 @@ function setColumns(grid) {
 	        values: ["text", "boolean", "number", "datetime"],
 			editor: {
 	            type: "dropDown",
-	            dropDownCount: 4
+	            dropDownCount: 4,
+	            textReadOnly: true
 	        },
 			width: 100
 		}]
@@ -148,6 +165,12 @@ function setColumns(grid) {
 			header: {
 				text: "number"
 			},
+			values: ["number"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -159,6 +182,12 @@ function setColumns(grid) {
 			header: {
 				text: "booleanFormat"
 			},
+			values: ["거짓,f,false:참,t,true:0"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -170,6 +199,12 @@ function setColumns(grid) {
 			header: {
 				text: "datetimeFormat"
 			},
+			values: ["yyyyMMdd", "yyyy.MM.dd", "yyyy/MM/dd"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -186,6 +221,12 @@ function setColumns(grid) {
 			header: {
 				text: "numberFormat"
 			},
+			values: ["#,###", "#,000", "0.##", "#,###.##"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -197,6 +238,12 @@ function setColumns(grid) {
 			header: {
 				text: "booleanFormat"
 			},
+			values: ["거짓:참"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -208,6 +255,12 @@ function setColumns(grid) {
 			header: {
 				text: "datetimeFormat"
 			},
+			values: ["yyyyMMdd", "yyyy.MM.dd", "yyyy/MM/dd"],
+			editor: {
+	            type: "dropDown",
+	            dropDownCount: 4,
+	            textReadOnly: true
+	        },
 			dynamicStyles: [{
 				criteria: "value = ''",
 				styles: "background=#11999999"
@@ -217,6 +270,16 @@ function setColumns(grid) {
 	}]
 
 	grid.setColumns(columns);
+}
+
+function addStyles(grid) {
+	grid.addCellStyle("style01", {
+		editable: false
+	});
+	grid.addCellStyle("style02",{
+	    editable: true
+	});
+
 }
 
 function setOptions(grid) {
