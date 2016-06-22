@@ -51,28 +51,7 @@ $(document).ready( function() {
 	setColumns(grdMain);
 	setOptions(grdMain);
 	sortingOptions(grdMain);
-	addStyles(grdMain);
 
-	grdMain.onCellEdited =  function (grid, itemIndex, dataRow, field) {
-		if(field == 4){
-			grdMain.commit();
-			typeSeting();
-		}
-		
-		if(grdMain.getValue(0,4) == 'text'){
-		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
-		}else if(grdMain.getValue(0,4) == 'boolean'){
-		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
-		grdMain.setCellStyles(0, [6,9], "style02");
-		}else if(grdMain.getValue(0,4) == 'number'){
-		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
-		grdMain.setCellStyles(0, [5,8], "style02");
-		}else if(grdMain.getValue(0,4) == 'datetime'){
-		grdMain.setCellStyles(0, [5,6,7,8,9,10], "style01");
-		grdMain.setCellStyles(0, [7,10], "style02");			
-		}
-
-	};
 })
 
 function setFields(provider) {
@@ -91,14 +70,6 @@ function setFields(provider) {
 		fieldName: "field6"
 	}, {
 		fieldName: "field7"
-	}, {
-		fieldName: "field8"
-	}, {
-		fieldName: "field9"
-	}, {
-		fieldName: "field10"
-	}, {
-		fieldName: "field11"
 	}];
 
 	provider.setFields(fields);
@@ -137,149 +108,49 @@ function setColumns(grid) {
 		},
 		width: 100
 	}, {
-		type: "group",
-		name: "fieldType",
-		width: 100,
-		columns: [{
-			name: "col5",
-			fieldName: "field5",
-			header: {
-				text: "dataType"
-			},
-			lookupDisplay: true,
-	        values: ["text", "boolean", "number", "datetime"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			width: 100
-		}]
+		name: "col5",
+		fieldName: "field5",
+		header: {
+			text: "type"
+		},
+		lookupDisplay: true,
+        values: ["text", "boolean", "number", "datetime", "dropdown"],
+		editor: {
+            type: "dropDown",
+            dropDownCount: 4,
+            textReadOnly: true
+        },
+		width: 100
 	}, {
 		type: "group",
-		name: "column.editor",
+		name: "column",
 		width: 300,
 		columns: [{
 			name: "col6",
 			fieldName: "field6",
 			header: {
-				text: "number"
+				text: "editor"
 			},
-			values: ["number"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
+			button: "action",
+			buttonVisibility: "always",
+			readOnly: true,
+			editable: false,
 			width: 100
 		}, {
 			name: "col7",
 			fieldName: "field7",
 			header: {
-				text: "booleanFormat"
+				text: "style"
 			},
-			values: ["거짓,f,false:참,t,true:0"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
-			width: 100
-		}, {
-			name: "col8",
-			fieldName: "field8",
-			header: {
-				text: "datetimeFormat"
-			},
-			values: ["yyyyMMdd", "yyyy.MM.dd", "yyyy/MM/dd"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
-			width: 100
-		}]
-	}, {
-		type: "group",
-		name: "column.styles",
-		width: 300,
-		columns: [{
-			name: "col9",
-			fieldName: "field9",
-			header: {
-				text: "numberFormat"
-			},
-			values: ["#,###", "#,000", "0.##", "#,###.##"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
-			width: 100 
-		}, {
-			name: "col10",
-			fieldName: "field10",
-			header: {
-				text: "booleanFormat"
-			},
-			values: ["거짓:참"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
-			width: 100
-		}, {
-			name: "col11",
-			fieldName: "field11",
-			header: {
-				text: "datetimeFormat"
-			},
-			values: ["yyyyMMdd", "yyyy.MM.dd", "yyyy/MM/dd"],
-			editor: {
-	            type: "dropDown",
-	            dropDownCount: 4,
-	            textReadOnly: true
-	        },
-			dynamicStyles: [{
-				criteria: "value = ''",
-				styles: "background=#11999999"
-			}],
+			button: "action",
+			buttonVisibility: "always",
+			readOnly: true,
+			editable:false,
 			width: 100
 		}]
 	}]
 
 	grid.setColumns(columns);
-}
-
-function addStyles(grid) {
-	grid.addCellStyle("style01", {
-		editable: false
-	});
-	grid.addCellStyle("style02",{
-	    editable: true
-	});
-
 }
 
 function setOptions(grid) {
@@ -299,53 +170,7 @@ function sortingOptions(grid) {
 	grdMain.setSortingOptions(options)
 }
 
-function typeSeting() {
-	var fieldType = dataProvider.getFieldValues("field5");
-
-	for(var i = 0; i < fieldType.length; i++){
-		if (fieldType[i] == "number"){
-			if (grdMain.getValue(i, "field6")=="" && grdMain.getValue(i,"field9")==""){
-				grdMain.setValue(i, "field6", "number");
-				grdMain.setValue(i, "field7", "");
-				grdMain.setValue(i, "field8", "");
-				grdMain.setValue(i, "field9", "#,000");
-				grdMain.setValue(i, "field10", "");
-				grdMain.setValue(i, "field11", "");
-			}
-		}else if (fieldType[i] == "text"){
-			grdMain.setValue(i, "field6", "");
-			grdMain.setValue(i, "field7", "");
-			grdMain.setValue(i, "field8", "");
-			grdMain.setValue(i, "field9", "");
-			grdMain.setValue(i, "field10", "");
-			grdMain.setValue(i, "field11", "");	
-		}else if (fieldType[i] == "boolean"){
-			if (grdMain.getValue(i, "field7")=="" && grdMain.getValue(i,"field10")==""){
-				grdMain.setValue(i, "field6", "");
-				grdMain.setValue(i, "field7", "거짓,f,false:참,t,true:0");
-				grdMain.setValue(i, "field8", "");
-				grdMain.setValue(i, "field9", "");
-				grdMain.setValue(i, "field10", "거짓:참");
-				grdMain.setValue(i, "field11", "");	
-			}	
-		}else if (fieldType[i] == "datetime"){
-			if (grdMain.getValue(i, "field8")=="" && grdMain.getValue(i,"field11")==""){
-				grdMain.setValue(i, "field6", "");
-				grdMain.setValue(i, "field7", "");
-				grdMain.setValue(i, "field8", "yyyyMMdd");
-				grdMain.setValue(i, "field9", "");
-				grdMain.setValue(i, "field10", "");
-				grdMain.setValue(i, "field11", "yyyy.MM.dd");	
-			}		
-		}
-	}
-}
-
 function addColumn(){
-	grdMain.commit();
-	if (grdMain.getItemCount()> 0){
-		typeSeting();
-	}
 	num++;
 	var row = {
 		field1: "field" + num,
@@ -354,21 +179,19 @@ function addColumn(){
 		field4: "컬럼해더" + num,
 		field5: "text",
 		field6: "",
-		field7: "",
-		field8: "",
-		field9: "",
-		field10: "",
-		field11: ""
+		field7: ""
 	}
 
 	dataProvider.addRow(row);
 }
+
 
 function delColumn(){
 	dataProvider.setOptions({softDeleting:false});
     dataProvider.removeRow(grdMain.getCurrent().dataRow);
 }
 
+// html 소스
 function getHtml() {
 	var sHtml = '<!DOCTYPE html>\n<html>\n'
 	var eHtml = '</html>'
@@ -462,10 +285,6 @@ function createColumns() {
 	var dataType = dataProvider.getFieldValues("field5");
 	var eNum = dataProvider.getFieldValues("field6");
 	var eBool = dataProvider.getFieldValues("field7");
-	var eDate = dataProvider.getFieldValues("field8");
-	var sNum = dataProvider.getFieldValues("field9");
-	var sBool = dataProvider.getFieldValues("field10");
-	var sDate = dataProvider.getFieldValues("field11");
 	var addColumns = 'function setColumns(grid) {\n    var columns = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
