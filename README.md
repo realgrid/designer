@@ -14,6 +14,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 * 사용자 - 컬럼추가, 삭제, 속성수정 
 * 코드생성 - 그리드에 들어갈 html페이지 소스코드생성 
 * (realgrid버전, 라이브러리 파일위치, div_id)
+
 ![ver0.1-1.jpg](./images/ver0.1-1.jpg)
 
 2. 진행사항
