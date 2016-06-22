@@ -14,6 +14,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 * 사용자 - 컬럼추가, 삭제, 속성수정 
 * 코드생성 - 그리드에 들어갈 html페이지 소스코드생성 
 * (realgrid버전, 라이브러리 파일위치, div_id)
+* 미리보기 - 생성된 소스코드로 RealGrid화면 출력
 
 ![ver0.1-1.jpg](./images/ver0.1-1.jpg)
 
@@ -33,7 +34,6 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 * type - text, number, datetime, boolean, dropdown
 * editor - 컬럼 속성(readOnly:true) 편집불가 상태 속성보기 버튼 구현
 * 속성보기 - 해당 타입에 맞는 designer창 열기, 기본 속성값 설정, 직접입력, help버튼 구현
-* style - 기본 style속성 제공, format속성은 속성보기 designer활용, help버튼 구현
 
 ![ver0.3-1.jpg](./images/ver0.3-1.jpg)
 
@@ -62,13 +62,13 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
    버전 0.5 까지 구현된 컬럼들의 설정을 기반으로 출력 미리보기에 출력된 그리드에 컬럼 속성에 맞는 샘플데이터 출력
 
-* editorType에 맞는 형싱의 샘플 데이터 구현
+* editorType에 맞는 형식의 샘플 데이터 구현
 * number - 랜덤 숫자(소수점 포함) [100000, 123456789, 0.123456, ...]
 * datetime - 랜덤 날짜 ["20160622", "20160222", ...]
 * boolean - 참/거짓, true, false...["참", "거짓", f, t, ...]
 * text - name, ID, country...["France", "VINET", "random", ...]
 
-[ver0.6-1.jpg](./images/ver0.6-1.jpg)
-[ver0.6-2.jpg](./images/ver0.6-2.jpg)
+![ver0.6-1.jpg](./images/ver0.6-1.jpg)
+![ver0.6-2.jpg](./images/ver0.6-2.jpg)
 
 2). 진행사항
