@@ -22,6 +22,27 @@
 	width: 600px;
 	height: 700px;
 }
+#numberDesigner{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+#datetimeDesigner{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+#booleanDesigner{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+#dropdownDesigner{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+
 </style>
 <meta charset="utf-8">
 <title>RealGrid Designer 0.1</title>
@@ -32,6 +53,8 @@
 <script type="text/javascript" src="/scripts/realgridjs-api.1.1.16.js"></script>
 <script type="text/javascript" src="/scripts/jszip.min.js"></script>
 
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+
 <script>
 var grdMain;
 var dataProvider;
@@ -40,6 +63,9 @@ var wSpace1 = "    ";
 var wSpace2 = "        ";
 
 $(document).ready( function() {
+	$("#formatSelect").change(function() {
+		document.getElementById('nFormat').value = document.getElementById('formatSelect').value;
+	})
 	RealGridJS.setTrace(false);
 	RealGridJS.setRootContext("/scripts");
 
@@ -51,6 +77,23 @@ $(document).ready( function() {
 	setColumns(grdMain);
 	setOptions(grdMain);
 	sortingOptions(grdMain);
+
+	grdMain.onCellButtonClicked =  function (grid, itemIndex, column) {
+		if(grdMain.getValue(0,4) == "number"){
+    		numberDesigner();
+		}
+		if(grdMain.getValue(0,4) == "datetime"){
+    		datetimeDesigner();
+		}
+	};
+
+	var objDiv = document.getElementById('pop');
+
+    if(objDiv.style.display=="none"){ 
+    	objDiv.style.display = "block"; 
+    }else { 
+    	objDiv.style.display = "none"; 
+    }
 
 })
 
@@ -156,9 +199,6 @@ function setColumns(grid) {
 function setOptions(grid) {
 	grid.setOptions({
 		panel:{
-			visible: false
-		},
-		checkBar: {
 			visible: false
 		}
 	})
@@ -366,10 +406,6 @@ function createColumns() {
 
 function fullSource() {
 	grdMain.commit();
-	if (grdMain.getItemCount()> 0){
-		typeSeting();
-	}
-	grdMain.commit();
 	dataProvider.clearRowStates();
 
 	var full = getHtml();
@@ -385,6 +421,26 @@ function buidPreview() {
  	doc.open();
   	doc.write(designerView);
   	doc.close();
+}
+
+function numberDesigner() {
+	var objDiv = document.getElementById('numberDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#close').click(function() {
+        $('#numberDesigner').hide();
+    });
+
+}
+
+function editorSave() {
+    var formatValue = document.getElementById('format').value;
+    grdMain.setValue(0,5, formatValue);
 }
 
 </script>
@@ -412,7 +468,7 @@ function buidPreview() {
 	<center><h3>RealGrid HTML Text 출력</h3></center>
 	<span style="float:right">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
-	<textarea id="sourceCode"readonly="readonly" rows="30" cols="91">
+	<textarea id="sourceCode"readonly="readonly" rows="30" cols="82">
 	</textarea>
 </div>
 <div id="contents">
@@ -420,5 +476,76 @@ function buidPreview() {
 	<input type="button" onclick="javascript:buidPreview();" value="designerView"><br/>
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
+
+<div id="numberDesigner">
+	<font size="6" color="black">numberDesigner</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<input type="text" id="nFormat" readonly="readonly" style="width:170px;"><br/>
+	<select  id="formatSelect">
+	<option value="">format선택</option>
+    <option value="#,###">#,###</option>
+    <option value="#,000">#,000</option>
+    <option value="#,###.##">#,###.##</option>
+    <option value="#,###.00">#,###.00</option>
+	</select>&nbsp;
+	<input type="button" style="width:70px;" value="직접입력">
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
+    <input type="button" id="close" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
+<div id="datetimeDesigner">
+	<font size="6" color="black">datatimeDesigner</font><br/><br/>
+	<font size="4" color="black">datetimeFormat</font><br/>
+	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
+	<select  id="formatSelect">
+	<option value="">format선택</option>
+    <option value="#,###">#,###</option>
+    <option value="#,000">#,000</option>
+    <option value="#,###.##">#,###.##</option>
+    <option value="#,###.00">#,###.00</option>
+	</select>&nbsp;
+	<input type="button" style="width:70px;" value="직접입력">
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
+    <input type="button" id="close" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
+<!--
+<div id="booleanDesigner">
+	<font size="6" color="black">numberDesigner</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
+	<select  id="formatSelect">
+	<option value="">format선택</option>
+    <option value="#,###">#,###</option>
+    <option value="#,000">#,000</option>
+    <option value="#,###.##">#,###.##</option>
+    <option value="#,###.00">#,###.00</option>
+	</select>&nbsp;
+	<input type="button" style="width:70px;" value="직접입력">
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
+    <input type="button" id="close" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
+<div id="dropdownDesigner">
+	<font size="6" color="black">numberDesigner</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
+	<select  id="formatSelect">
+	<option value="">format선택</option>
+    <option value="#,###">#,###</option>
+    <option value="#,000">#,000</option>
+    <option value="#,###.##">#,###.##</option>
+    <option value="#,###.00">#,###.00</option>
+	</select>&nbsp;
+	<input type="button" style="width:70px;" value="직접입력">
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
+    <input type="button" id="close" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
+-->
 </body>
 </html>

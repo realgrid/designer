@@ -39,6 +39,9 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 2). 진행사항 
 
+* numberDesigner구현, select, 직접입력방식 적용
+* 적용, 닫기, help 추가
+* designer의 값 적용시 해당 dataCell의 값에 적용
 
 ### 버전 0.5
 
