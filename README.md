@@ -8,7 +8,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 ### 버전 0.1
 
-1. designer 요구사항
+1). designer 요구사항
 
 * 기능 및 설계
 * 사용자 - 컬럼추가, 삭제, 속성수정 
@@ -17,7 +17,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 ![ver0.1-1.jpg](./images/ver0.1-1.jpg)
 
-2. 진행사항
+2). 진행사항
 
 * designer로 활용할 그리드 생성(필드, 컬럼, width, type, editor, style)
 * 생성된 그리드의 기능 추가(컬럼추가, 컬럼삭제)
@@ -26,9 +26,9 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 ### 버전 0.3
 
-1. 버전 0.3 구상 및 설계
+1). 버전 0.3 구상 및 설계
 
-designer 버전 0.1에서 생성한 그리드의 type, editor, style기능 추가
+    designer 버전 0.1에서 생성한 그리드의 type, editor, style기능 추가
 
 * type - text, number, datetime, boolean, dropdown
 * editor - 컬럼 속성(readOnly:true) 편집불가 상태 속성보기 버튼 구현
@@ -37,7 +37,7 @@ designer 버전 0.1에서 생성한 그리드의 type, editor, style기능 추�
 
 ![ver0.3-1.jpg](./images/ver0.3-1.jpg)
 
-2. 진행사항 
+2). 진행사항 
 
 
 ### 버전 0.5
