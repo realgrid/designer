@@ -28,7 +28,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 1). 버전 0.3 구상 및 설계
 
-    designer 버전 0.1에서 생성한 그리드의 type, editor, style기능 추가
+   designer 버전 0.1에서 생성한 그리드의 type, editor, style기능 추가
 
 * type - text, number, datetime, boolean, dropdown
 * editor - 컬럼 속성(readOnly:true) 편집불가 상태 속성보기 버튼 구현
@@ -41,6 +41,20 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 
 ### 버전 0.5
+
+1). 버전 0.5 구상 및 설계
+
+   버전 0.3에서 구성된 editor의 설정에 따라 style컬럼의 속성을 설정하는 기능 추가
+
+* style컬럼의 더보기 버튼클릭으로 해당 타입의 styleDesigner창으로 이동
+* styleDesigner - background, textAlignment, type에 맞는 format형식 제공
+* editor에 설정한 editorDesigner의 값을 styleDesigner의 format에 입력
+* help버튼을 추가하여 설정방법에 대한 정보 제공
+* 확인 버튼을 추가하여 완료시 해당 속성의 값을 style데이터셀의 값으로 입력 
+
+![ver0.5-1.jpg](./images/ver0.5-1.jpg)
+
+2). 진행사항
 
 ### 버전 0.6
 
