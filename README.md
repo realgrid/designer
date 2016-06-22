@@ -58,3 +58,17 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 ### 버전 0.6
 
+1). 랜덤 샘플 데이터 출력
+
+   버전 0.5 까지 구현된 컬럼들의 설정을 기반으로 출력 미리보기에 출력된 그리드에 컬럼 속성에 맞는 샘플데이터 출력
+
+* editorType에 맞는 형싱의 샘플 데이터 구현
+* number - 랜덤 숫자(소수점 포함) [100000, 123456789, 0.123456, ...]
+* datetime - 랜덤 날짜 ["20160622", "20160222", ...]
+* boolean - 참/거짓, true, false...["참", "거짓", f, t, ...]
+* text - name, ID, country...["France", "VINET", "random", ...]
+
+[ver0.6-1.jpg](./images/ver0.6-1.jpg)
+[ver0.6-2.jpg](./images/ver0.6-2.jpg)
+
+2). 진행사항
