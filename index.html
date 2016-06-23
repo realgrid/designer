@@ -23,22 +23,32 @@
 	height: 700px;
 }
 #numberDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #datetimeDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #booleanDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #dropdownDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 0.7); color:#fff;
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+#directNF{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  position:absolute; top:124px; left:840px; text-align:center; 
+  border:2px solid #000;
+}
+#directDF{
+  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
@@ -61,10 +71,14 @@ var dataProvider;
 var num = 0;
 var wSpace1 = "    ";
 var wSpace2 = "        ";
+var cellButtonItemIndex;
 
 $(document).ready( function() {
-	$("#formatSelect").change(function() {
-		document.getElementById('nFormat').value = document.getElementById('formatSelect').value;
+	$("#selectNF").change(function() {
+		document.getElementById('inputNF').value = document.getElementById('selectNF').value;
+	})
+	$("#selectDF").change(function() {
+		document.getElementById('inputDF').value = document.getElementById('selectDF').value;
 	})
 	RealGridJS.setTrace(false);
 	RealGridJS.setRootContext("/scripts");
@@ -77,23 +91,33 @@ $(document).ready( function() {
 	setColumns(grdMain);
 	setOptions(grdMain);
 	sortingOptions(grdMain);
+	designerDisplay();
 
 	grdMain.onCellButtonClicked =  function (grid, itemIndex, column) {
-		if(grdMain.getValue(0,4) == "number"){
-    		numberDesigner();
+		cellButtionItemIndex = itemIndex;
+		designerDisplay();
+		var cellButton = grdMain.getValue(itemIndex, 4);
+		if (cellButton == "number" && column.name == "col6"){
+			numberDesigner();
+		}else if(cellButton == "datetime" && column.name == "col6"){
+			datetimeDesigner();
+		}else if(cellButton == "boolean" && column.name == "col6"){
+			booleanDesigner();
+		}else if(cellButton == "dropdown" && column.name == "col6"){
+			dropdownDesigner();
 		}
-		if(grdMain.getValue(0,4) == "datetime"){
-    		datetimeDesigner();
-		}
+		
 	};
 
-	var objDiv = document.getElementById('pop');
+	grdMain.onEditRowChanged = function (grid, itemIndex, dataRow, field, oldValue, newValue) {
+		if (field == 4){
+			if(oldValue == newValue){
 
-    if(objDiv.style.display=="none"){ 
-    	objDiv.style.display = "block"; 
-    }else { 
-    	objDiv.style.display = "none"; 
-    }
+			}else {
+				designerDisplay();
+			}
+		}
+	};
 
 })
 
@@ -196,6 +220,22 @@ function setColumns(grid) {
 	grid.setColumns(columns);
 }
 
+function designerDisplay() {
+	var numberD = document.getElementById('numberDesigner');
+	var dateD = document.getElementById('datetimeDesigner');
+	var booleanD = document.getElementById('booleanDesigner');
+	var dropdownD = document.getElementById('dropdownDesigner');
+	var directNF = document.getElementById('directNF');
+	var directDF = document.getElementById('directDF');
+	numberD.style.display = "none";
+	dateD.style.display = "none";
+	booleanD.style.display = "none";
+	dropdownD.style.display = "none";
+	directNF.style.display = "none";
+	directDF.style.display = "none";
+
+}
+
 function setOptions(grid) {
 	grid.setOptions({
 		panel:{
@@ -211,6 +251,7 @@ function sortingOptions(grid) {
 }
 
 function addColumn(){
+	grdMain.commit();
 	num++;
 	var row = {
 		field1: "field" + num,
@@ -247,7 +288,7 @@ function getHead() {
 }
 
 function getBody() {
-	var sBody = '<body>\n<div id=' + '"' + document.getElementById('divId').value + '"' + ' style="width:500px; height:280px;"></div>\n'
+	var sBody = '<body>\n<div id=' + '"' + document.getElementById('divId').value + '"' + ' style="width:570px; height:280px;"></div>\n'
 	var eBody ='</body>\n'
 	var body = sBody.concat(jsImport(), setScript(), eBody);
 	return body;
@@ -323,8 +364,8 @@ function createColumns() {
 	var colWidth = dataProvider.getFieldValues("field3");
 	var headText = dataProvider.getFieldValues("field4");
 	var dataType = dataProvider.getFieldValues("field5");
-	var eNum = dataProvider.getFieldValues("field6");
-	var eBool = dataProvider.getFieldValues("field7");
+	var editor = dataProvider.getFieldValues("field6");
+	var style = dataProvider.getFieldValues("field7");
 	var addColumns = 'function setColumns(grid) {\n    var columns = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
@@ -337,26 +378,26 @@ function createColumns() {
 			if(dataType[i].length > 0){
 				if (dataType[i] == "boolean"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + eBool[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + sBool[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + eNum[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "' + sNum[i] + '"\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + eDate[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + sDate[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 			}
@@ -372,26 +413,26 @@ function createColumns() {
 			if(dataType[i].length > 0){ //컬럼 시작
 				if (dataType[i] == "boolean"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + eBool[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + sBool[i] + '"\n' +
+					wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + eNum[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "' + sNum[i] + '"\n' +
+					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + eDate[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + sDate[i] + '"\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 			}
@@ -432,15 +473,97 @@ function numberDesigner() {
     	objDiv.style.display = "block"; 
     }
 
-	$('#close').click(function() {
+	$('#btnDirectInputNF').click(function() {
+		var numberInput = document.getElementById('directNF')
+        numberInput.style.display = "block"
+    });
+
+	$('#btnCloseNF').click(function() {
         $('#numberDesigner').hide();
+        document.getElementById('inputNF').value = ""
+    });
+    $('#btnDirectCloseNF').click(function() {
+        var numberInput = document.getElementById('directNF')
+        numberInput.style.display = "none"
+        document.getElementById('directInputNF').value = ""
     });
 
 }
 
-function editorSave() {
-    var formatValue = document.getElementById('format').value;
-    grdMain.setValue(0,5, formatValue);
+function datetimeDesigner() {
+	var objDiv = document.getElementById('datetimeDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#btnDirectInputDF').click(function() {
+		var numberInput = document.getElementById('directDF')
+        numberInput.style.display = "block"
+    });
+
+	$('#btnCloseDF').click(function() {
+        $('#datetimeDesigner').hide();
+        document.getElementById('inputDF').value = ""
+    });
+    $('#btnDirectCloseDF').click(function() {
+        var numberInput = document.getElementById('directDF')
+        numberInput.style.display = "none"
+        document.getElementById('directInputDF').value = ""
+    });
+
+}
+
+function booleanDesigner() {
+	var objDiv = document.getElementById('booleanDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#booleanClose').click(function() {
+        $('#booleanDesigner').hide();
+    });
+
+}
+
+function dropdownDesigner() {
+	var objDiv = document.getElementById('dropdownDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#dropdownClose').click(function() {
+        $('#dropdownDesigner').hide();
+    });
+
+}
+
+function numberDesignerSave() {
+    var formatValue = document.getElementById('inputNF').value;
+    var inputValue = document.getElementById('directInputNF').value;
+    if (inputValue.length > 0){
+    	grdMain.setValue(cellButtionItemIndex,5, inputValue);
+    }else if (document.getElementById('directNF').style.display == "none"){
+    	grdMain.setValue(cellButtionItemIndex,5, formatValue);
+	}
+}
+
+function datetimeDesignerSave() {
+    var selectValue = document.getElementById('inputDF').value;
+    var directValue = document.getElementById('directInputDF').value;
+    if (directValue.length > 0){
+    	grdMain.setValue(cellButtionItemIndex,5, directValue);
+    }else if (document.getElementById('directDF').style.display == "none"){
+    	grdMain.setValue(cellButtionItemIndex,5, selectValue);
+	}
 }
 
 </script>
@@ -480,43 +603,44 @@ function editorSave() {
 <div id="numberDesigner">
 	<font size="6" color="black">numberDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="nFormat" readonly="readonly" style="width:170px;"><br/>
-	<select  id="formatSelect">
+	<input type="text" id="inputNF" readonly="readonly" style="width:170px;"><br/>
+	<select  id="selectNF">
 	<option value="">format선택</option>
     <option value="#,###">#,###</option>
     <option value="#,000">#,000</option>
     <option value="#,###.##">#,###.##</option>
     <option value="#,###.00">#,###.00</option>
 	</select>&nbsp;
-	<input type="button" style="width:70px;" value="직접입력">
+	<input type="button" id="btnDirectInputNF" style="width:70px;" value="직접입력">
 	<br/><br/><br/><br/><br/><br/>
-    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="close" style="width:70px;" value="닫기">
+    <input type="button" id="btnSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseNF" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
+
 <div id="datetimeDesigner">
 	<font size="6" color="black">datatimeDesigner</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
-	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
-	<select  id="formatSelect">
+	<input type="text" id="inputDF" readonly="readonly" style="width:176px;"><br/>
+	<select  id="selectDF">
 	<option value="">format선택</option>
-    <option value="#,###">#,###</option>
-    <option value="#,000">#,000</option>
-    <option value="#,###.##">#,###.##</option>
-    <option value="#,###.00">#,###.00</option>
+    <option value="yyyyMMdd">yyyyMMdd</option>
+    <option value="yyyy.MM.dd">yyyy.MM.dd</option>
+    <option value="yyyy/MM/dd">yyyy/MM/dd</option>
+    <option value="yyyy-MM-dd">yyyy-MM-dd</option>
 	</select>&nbsp;
-	<input type="button" style="width:70px;" value="직접입력">
+	<input type="button" id="btnDirectInputDF" style="width:70px;" value="직접입력">
 	<br/><br/><br/><br/><br/><br/>
-    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="close" style="width:70px;" value="닫기">
+    <input type="button" id="btnSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseDF" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
-<!--
+
 <div id="booleanDesigner">
-	<font size="6" color="black">numberDesigner</font><br/><br/>
+	<font size="6" color="black">booleanDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
 	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
-	<select  id="formatSelect">
+	<select  id="bFormatSelect">
 	<option value="">format선택</option>
     <option value="#,###">#,###</option>
     <option value="#,000">#,000</option>
@@ -526,14 +650,15 @@ function editorSave() {
 	<input type="button" style="width:70px;" value="직접입력">
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="close" style="width:70px;" value="닫기">
+    <input type="button" id="booleanClose" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
+
 <div id="dropdownDesigner">
-	<font size="6" color="black">numberDesigner</font><br/><br/>
+	<font size="6" color="black">dropdownDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
 	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
-	<select  id="formatSelect">
+	<select  id="dropdownSelect">
 	<option value="">format선택</option>
     <option value="#,###">#,###</option>
     <option value="#,000">#,000</option>
@@ -543,9 +668,28 @@ function editorSave() {
 	<input type="button" style="width:70px;" value="직접입력">
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="close" style="width:70px;" value="닫기">
+    <input type="button" id="dropdownClose" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
--->
+
+<div id="directNF">
+	<font size="6" color="black">직접입력</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<input type="text" id="directInputNF" style="width:170px;"><br/>
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="btnDirectSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnDirectCloseNF" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
+
+<div id="directDF">
+	<font size="6" color="black">직접입력</font><br/><br/>
+	<font size="4" color="black">datetimeFormat</font><br/>
+	<input type="text" id="directInputDF" style="width:176px;"><br/>
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="btnDirectSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnDirectCloseDF" style="width:70px;" value="닫기">
+    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+</div>
 </body>
 </html>
