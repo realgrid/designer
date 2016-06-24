@@ -1,8 +1,26 @@
-# designer
+# RealGridDesigner
 
-### RealGridDesigner
+별다른 설치과정 없이 한번의 클릭으로 제품을 사용할 수 있도록 서비스 제공
+직접 소스코드 입력 방식이 아닌 디자이너를 활용하여 보다 쉽게 그리드를 생성할 수 있도록 RealGridDesigner제공
+
+* RealGridDesigner를 활용하여 그리드 구현의 기본 세팅시간을 단축
+* 복잡하고 많은 컬럼 생성시 빠른 컬럼 생성이 가능
+* 원하는 타입의 포맷 형식을 간단한 선택으로 해당 컬럼의 타입을 지정
+* RealGrid사용자에게 보다 편하고 정확하게 Grid를 구현할수 있도록 서비스 제공
+
+## 사용법
 
 RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 기초 설정을 간단하게 세팅할 수 있습니다. 
+
+* 그리드에 기본 library경로 및 버전을 지정한다.
+* RealGridDesigner에 생성되어 있는 그리드에 컬럼을 추가하여 원하는 행을 만든다. 
+* 생성된 각 컬럼의 필드 정보부터 style까지 속성을 설정한다.
+* editor와 sytle은 버튼을 눌러 해당 type에 맞는 디자이너화면을 출력하여 format을 입력한다.
+* 컬럼 생성이 완료 되면 RealGird HTML Text출력의 미리보기를 선택하여 출력되는 html문서를 확인한다.
+* html문서에 이상이 없으면 RealGrid출력화면 미리보기에서 designerView버튼으로 사용할 그리드의 결과물을 확인한다.
+* 그리드 미리보기 화면에 이상이 없으면 미리보기 화면으로 구성된 html코드를 파일로 추출하여 사용한다.
+
+그리드 디자이너로 구현할 수 있는 기능 외의 기능은 추출된 파일에 원하는 기능을 추가하여 구현할 수 있습니다.
 
 ## designer 구상 및 계획
 
@@ -20,10 +38,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 2). 진행사항
 
-* designer로 활용할 그리드 생성(필드, 컬럼, width, type, editor, style)
-* 생성된 그리드의 기능 추가(컬럼추가, 컬럼삭제)
-* designer의 기본 html소스코드 생성
-* 생성된 소스코드로 결과 화면 출력
+[버전0.1 진행사항 보기](https://github.com/realgrid/designer/releases)
 
 ### 버전 0.3
 
@@ -39,9 +54,7 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 
 2). 진행사항 
 
-* numberDesigner구현, select, 직접입력방식 적용
-* 적용, 닫기, help 추가
-* designer의 값 적용시 해당 dataCell의 값에 적용
+[버전0.3 진행사항 보기](https://github.com/realgrid/designer/releases)
 
 ### 버전 0.5
 
