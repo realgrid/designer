@@ -138,6 +138,8 @@ function setFields(provider) {
 		fieldName: "field6"
 	}, {
 		fieldName: "field7"
+	}, {
+		fieldName: "field8"
 	}];
 
 	provider.setFields(fields);
@@ -216,6 +218,14 @@ function setColumns(grid) {
 			editable:false,
 			width: 100
 		}]
+	}, {
+		name: "col8",
+		fieldName: "field8",
+		header: {
+			text: "labels"
+		},
+		visible: false,
+		width: 50
 	}]
 
 	grid.setColumns(columns);
@@ -261,7 +271,8 @@ function addColumn(){
 		field4: "컬럼해더" + num,
 		field5: "text",
 		field6: "",
-		field7: ""
+		field7: "",
+		field8: "",
 	}
 
 	dataProvider.addRow(row);
@@ -340,16 +351,28 @@ function createFields() {
 	wSpace1 + 'var fields = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
-			addFields += '{\n' +
-			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
-			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
-			wSpace1 + '},'
+			if (dataType[i] == "dropdown"){
+				addFields += '{\n' +
+				wSpace2 + 'fieldName: "' + fields[i] + '"\n' +
+				wSpace1 + '},'
+			}else{
+				addFields += '{\n' +
+				wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
+				wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
+				wSpace1 + '},'
+			}
 		}
 		if(i === itemCount-1){
-			addFields += '{\n' +
-			wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
-			wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
-			wSpace1 + '}'
+			if (dataType[i] == "dropdown"){
+				addFields += '{\n' +
+				wSpace2 + 'fieldName: "' + fields[i] + '"\n' +
+				wSpace1 + '}'
+			}else{
+				addFields += '{\n' +
+				wSpace2 + 'fieldName: "' + fields[i] + '",\n' + 
+				wSpace2 + 'dataType: "' + dataType[i] + '"\n' +
+				wSpace1 + '}'
+			}
 		}
 	}
 	addFields += '];\n\n' +
@@ -367,6 +390,7 @@ function createColumns() {
 	var dataType = dataProvider.getFieldValues("field5");
 	var editor = dataProvider.getFieldValues("field6");
 	var style = dataProvider.getFieldValues("field7");
+	var values = dataProvider.getFieldValues("field8");
 	var addColumns = 'function setColumns(grid) {\n    var columns = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
@@ -403,8 +427,10 @@ function createColumns() {
 				}
 				if (dataType[i] == "dropdown"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'values "' + editor[i] + '",\n' +
-					wSpace1 + wSpace2 + 'labels "' + editor[i] + '",\n' +
+					wSpace1 + wSpace2 + 'type: "dropDown",\n' +
+					wSpace1 + wSpace2 + "dropDownCount: 4,\n" +					
+					wSpace1 + wSpace2 + "values: '[" + values[i].split(",") + "]',\n" +
+					wSpace1 + wSpace2 + "labels: '[" + editor[i].split(",") + "]'\n" +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
@@ -447,8 +473,10 @@ function createColumns() {
 				}
 				if (dataType[i] == "dropdown"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'values "' + editor[i] + '",\n' +
-					wSpace1 + wSpace2 + 'labels "' + editor[i] + '",\n' +
+					wSpace1 + wSpace2 + 'type: "dropDown",\n' +
+					wSpace1 + wSpace2 + "dropDownCount: 4,\n" +
+					wSpace1 + wSpace2 + "values: " + JSON.stringify(editor[i].split(",")) + ",\n" +
+					wSpace1 + wSpace2 + "labels: " + JSON.stringify(values[i].split(",")) + "\n" +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
@@ -546,6 +574,9 @@ function booleanDesigner() {
 
 	$('#btnCloseBF').click(function() {
         $('#booleanDesigner').hide();
+        document.getElementById('inputFalse').value = ""
+        document.getElementById('inputTrue').value = ""
+        document.getElementById('inputCase').value = ""
     });
 
 }
@@ -561,6 +592,8 @@ function dropdownDesigner() {
 
 	$('#btnCloseDD').click(function() {
         $('#dropdownDesigner').hide();
+        document.getElementById('dropdownValues').value = ""
+        document.getElementById('dropdownLabels').value = ""
     });
 
 }
@@ -598,10 +631,11 @@ function booleanDesignerSave() {
 }
 
 function dropdownDesignerSave() {
-    var labels = document.getElementById('dropdownLabels').value;
-    var values = document.getElementById('dropdownValues').value;
+    var labels = document.getElementById('dropdownLabels').value.split("\n");
+    var values = document.getElementById('dropdownValues').value.split("\n");
 
     grdMain.setValue(cellButtionItemIndex,5, labels);
+    grdMain.setValue(cellButtionItemIndex,7, values);
 
 }
 
@@ -654,7 +688,7 @@ function saveTextAsFile(){
 	<span style="float:right">
 	Filename to Save As:
 	<input id="inputFileNameToSaveAs">
-	<button onclick="saveTextAsFile()">Save Text to File</button>
+	<input type="button" onclick="saveTextAsFile()" value="Save Text to File">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
 	<textarea id="sourceCode"readonly="readonly" rows="30" cols="82">
 	</textarea>
@@ -682,7 +716,7 @@ function saveTextAsFile(){
 	<br/><br/><br/><br/><br/>
     <input type="button" id="btnSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseNF" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
 <div id="datetimeDesigner">
@@ -709,28 +743,28 @@ function saveTextAsFile(){
 	<font size="6" color="black">booleanDesigner</font><br/>
 	<font size="4" color="black">boolean설정</font><br/>
 	<font size="3" color="black">거짓</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-	<input type="text" id="inputFalse" style="width:150px;" value="" style="CURSOR:hand;" title="ex) False,N,0"><br/>
+	<input type="text" id="inputFalse" style="width:150px;" value="" title="ex) False,N,0"><br/>
 	<font size="3" color="black">참</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-	<input type="text" id="inputTrue" style="width:150px;" value="" style="CURSOR:hand;" title="ex) True,Y,1"><br/>
+	<input type="text" id="inputTrue" style="width:150px;" value="" title="ex) True,Y,1"><br/>
 	<font size="3" color="black">대소문자</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-	<input type="text" id="inputCase" style="width:150px;" value="" style="CURSOR:hand;" title="ex) 구분없이:0 / 구분:1 (숫자만 입력)"><br/>
+	<input type="text" id="inputCase" style="width:150px;" value="" title="ex) 구분없이:0 / 구분:1 (숫자만 입력)"><br/>
 	<br/><br/>
     <input type="button" id="btnSaveBF" onclick="javascript:booleanDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseBF" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
 <div id="dropdownDesigner">
 	<font size="6" color="black">dropdownDesigner</font><br/><br/>
-	<font size="3" color="black">labels</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<font size="3" color="black">values</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
-	<textarea id="dropdownLabels" rows="6" cols="10"></textarea>&nbsp;
-	<textarea id="dropdownValues" rows="6" cols="10"></textarea><br/>
+	<font size="3" color="black">values</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font size="3" color="black">labels</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+	<textarea id="dropdownValues" rows="6" cols="10" title="ex) &#13;1&#13;2&#13;3&#13;4&#13;5"></textarea>&nbsp;
+	<textarea id="dropdownLabels" rows="6" cols="10" title="ex) &#13;일&#13;이&#13;삼&#13;사&#13;오"></textarea><br/>
 	<input type="checkbox" name="chk_display" value="lookupDisplay" checked="checked"><font size="3" color="black">lookupDisplay</font>
 	<br/><br/>
     <input type="button" id="btnSaveDD" onclick="javascript:dropdownDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseDD" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
 <div id="directNF">
@@ -740,7 +774,7 @@ function saveTextAsFile(){
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="btnDirectSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseNF" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
 <div id="directDF">
@@ -750,7 +784,7 @@ function saveTextAsFile(){
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="btnDirectSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseDF" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 </body>
 </html>
