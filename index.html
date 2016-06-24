@@ -22,32 +22,7 @@
 	width: 600px;
 	height: 700px;
 }
-#numberDesigner{
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
-}
-#datetimeDesigner{
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
-}
-#booleanDesigner{
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
-}
-#dropdownDesigner{
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
-}
-#directNF{
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
-}
-#directDF{
+.designer {
   width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
@@ -699,7 +674,7 @@ function saveTextAsFile(){
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
 
-<div id="numberDesigner">
+<div id="numberDesigner" class="designer">
 	<font size="6" color="black">numberDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
 	<font size="2" color="black">보기</font>
@@ -719,7 +694,7 @@ function saveTextAsFile(){
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
-<div id="datetimeDesigner">
+<div id="datetimeDesigner" class="designer">
 	<font size="6" color="black">datetimeDesigner</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
 	<font size="2" color="black">보기</font>
@@ -739,7 +714,7 @@ function saveTextAsFile(){
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
-<div id="booleanDesigner">
+<div id="booleanDesigner" class="designer">
 	<font size="6" color="black">booleanDesigner</font><br/>
 	<font size="4" color="black">boolean설정</font><br/>
 	<font size="3" color="black">거짓</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -754,7 +729,7 @@ function saveTextAsFile(){
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
-<div id="dropdownDesigner">
+<div id="dropdownDesigner" class="designer">
 	<font size="6" color="black">dropdownDesigner</font><br/><br/>
 	<font size="3" color="black">values</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<font size="3" color="black">labels</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
@@ -767,7 +742,7 @@ function saveTextAsFile(){
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
-<div id="directNF">
+<div id="directNF" class="designer">
 	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
 	<input type="text" id="directInputNF" style="width:200px;"><br/>
@@ -777,7 +752,7 @@ function saveTextAsFile(){
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
-<div id="directDF">
+<div id="directDF" class="designer">
 	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
 	<input type="text" id="directInputDF" style="width:200px;"><br/>
