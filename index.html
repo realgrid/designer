@@ -115,6 +115,7 @@ $(document).ready( function() {
 
 			}else {
 				designerDisplay();
+				grdMain.setValue(itemIndex,"field6","")
 			}
 		}
 	};
@@ -386,7 +387,7 @@ function createColumns() {
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + editor[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "number"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
@@ -395,6 +396,15 @@ function createColumns() {
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "dropdown"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'values "' + editor[i] + '",\n' +
+					wSpace1 + wSpace2 + 'labels "' + editor[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
@@ -581,6 +591,9 @@ function booleanDesignerSave() {
 function dropdownDesignerSave() {
     var labels = document.getElementById('dropdownLabels').value;
     var values = document.getElementById('dropdownValues').value;
+
+    grdMain.setValue(cellButtionItemIndex,5, labels);
+
 }
 
 </script>
@@ -678,7 +691,7 @@ function dropdownDesignerSave() {
 	<font size="3" color="black">values</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
 	<textarea id="dropdownLabels" rows="6" cols="10"></textarea>&nbsp;
 	<textarea id="dropdownValues" rows="6" cols="10"></textarea><br/>
-	<input type="checkbox" name="chk_display" value="lookupDisplay"><font size="3" color="black">lookupDisplay</font>
+	<input type="checkbox" name="chk_display" value="lookupDisplay" checked="checked"><font size="3" color="black">lookupDisplay</font>
 	<br/><br/>
     <input type="button" id="btnSaveDD" onclick="javascript:dropdownDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseDD" style="width:70px;" value="닫기">
