@@ -23,32 +23,32 @@
 	height: 700px;
 }
 #numberDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #datetimeDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #booleanDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #dropdownDesigner{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #directNF{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
 #directDF{
-  width:270px; height:295px; background-color: rgba(230, 230, 230, 1); color:#fff;
+  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
   position:absolute; top:124px; left:840px; text-align:center; 
   border:2px solid #000;
 }
@@ -525,7 +525,7 @@ function booleanDesigner() {
     	objDiv.style.display = "block"; 
     }
 
-	$('#booleanClose').click(function() {
+	$('#btnCloseBF').click(function() {
         $('#booleanDesigner').hide();
     });
 
@@ -540,7 +540,7 @@ function dropdownDesigner() {
     	objDiv.style.display = "block"; 
     }
 
-	$('#dropdownClose').click(function() {
+	$('#btnCloseDD').click(function() {
         $('#dropdownDesigner').hide();
     });
 
@@ -564,6 +564,23 @@ function datetimeDesignerSave() {
     }else if (document.getElementById('directDF').style.display == "none"){
     	grdMain.setValue(cellButtionItemIndex,5, selectValue);
 	}
+}
+
+function booleanDesignerSave() {
+    var booleanFalse = document.getElementById('inputFalse').value;
+    var booleanTrue = document.getElementById('inputTrue').value;
+    var booleanCase = document.getElementById('inputCase').value;
+    var booleanEditor = booleanFalse + ":" + booleanTrue + ":" + booleanCase;
+    if(booleanFalse.length > 0 && booleanTrue.length > 0 && booleanCase.length > 0){
+    	grdMain.setValue(cellButtionItemIndex,5, booleanEditor);
+	}else {
+		alert("모든 조건을 입력해 주세요.")
+	}
+}
+
+function dropdownDesignerSave() {
+    var labels = document.getElementById('dropdownLabels').value;
+    var values = document.getElementById('dropdownValues').value;
 }
 
 </script>
@@ -603,7 +620,9 @@ function datetimeDesignerSave() {
 <div id="numberDesigner">
 	<font size="6" color="black">numberDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="inputNF" readonly="readonly" style="width:170px;"><br/>
+	<font size="2" color="black">보기</font>
+	<input type="text" id="inputNF" readonly="readonly" style="width:200px;"><br/><br/>
+	<font size="2" color="black">형식</font>
 	<select  id="selectNF">
 	<option value="">format선택</option>
     <option value="#,###">#,###</option>
@@ -611,17 +630,19 @@ function datetimeDesignerSave() {
     <option value="#,###.##">#,###.##</option>
     <option value="#,###.00">#,###.00</option>
 	</select>&nbsp;
-	<input type="button" id="btnDirectInputNF" style="width:70px;" value="직접입력">
-	<br/><br/><br/><br/><br/><br/>
+	<input type="button" id="btnDirectInputNF" style="width:100px;" value="사용자 지정">
+	<br/><br/><br/><br/><br/>
     <input type="button" id="btnSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseNF" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
 
 <div id="datetimeDesigner">
-	<font size="6" color="black">datatimeDesigner</font><br/><br/>
+	<font size="6" color="black">datetimeDesigner</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
-	<input type="text" id="inputDF" readonly="readonly" style="width:176px;"><br/>
+	<font size="2" color="black">보기</font>
+	<input type="text" id="inputDF" readonly="readonly" style="width:200px;"><br/><br/>
+	<font size="2" color="black">형식</font>
 	<select  id="selectDF">
 	<option value="">format선택</option>
     <option value="yyyyMMdd">yyyyMMdd</option>
@@ -629,53 +650,45 @@ function datetimeDesignerSave() {
     <option value="yyyy/MM/dd">yyyy/MM/dd</option>
     <option value="yyyy-MM-dd">yyyy-MM-dd</option>
 	</select>&nbsp;
-	<input type="button" id="btnDirectInputDF" style="width:70px;" value="직접입력">
-	<br/><br/><br/><br/><br/><br/>
+	<input type="button" id="btnDirectInputDF" style="width:100px;" value="사용자 지정">
+	<br/><br/><br/><br/><br/>
     <input type="button" id="btnSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnCloseDF" style="width:70px;" value="닫기">
-    <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
 <div id="booleanDesigner">
-	<font size="6" color="black">booleanDesigner</font><br/><br/>
-	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
-	<select  id="bFormatSelect">
-	<option value="">format선택</option>
-    <option value="#,###">#,###</option>
-    <option value="#,000">#,000</option>
-    <option value="#,###.##">#,###.##</option>
-    <option value="#,###.00">#,###.00</option>
-	</select>&nbsp;
-	<input type="button" style="width:70px;" value="직접입력">
-	<br/><br/><br/><br/><br/><br/>
-    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="booleanClose" style="width:70px;" value="닫기">
+	<font size="6" color="black">booleanDesigner</font><br/>
+	<font size="4" color="black">boolean설정</font><br/>
+	<font size="3" color="black">거짓</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+	<input type="text" id="inputFalse" style="width:150px;" value="" style="CURSOR:hand;" title="ex) False,N,0"><br/>
+	<font size="3" color="black">참</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+	<input type="text" id="inputTrue" style="width:150px;" value="" style="CURSOR:hand;" title="ex) True,Y,1"><br/>
+	<font size="3" color="black">대소문자</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+	<input type="text" id="inputCase" style="width:150px;" value="" style="CURSOR:hand;" title="ex) 구분없이:0 / 구분:1 (숫자만 입력)"><br/>
+	<br/><br/>
+    <input type="button" id="btnSaveBF" onclick="javascript:booleanDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseBF" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
 
 <div id="dropdownDesigner">
 	<font size="6" color="black">dropdownDesigner</font><br/><br/>
-	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="format" readonly="readonly" style="width:170px;"><br/>
-	<select  id="dropdownSelect">
-	<option value="">format선택</option>
-    <option value="#,###">#,###</option>
-    <option value="#,000">#,000</option>
-    <option value="#,###.##">#,###.##</option>
-    <option value="#,###.00">#,###.00</option>
-	</select>&nbsp;
-	<input type="button" style="width:70px;" value="직접입력">
-	<br/><br/><br/><br/><br/><br/>
-    <input type="button" id="saveData" onclick="javascript:editorSave();" style="width:70px;" value="적용">
-    <input type="button" id="dropdownClose" style="width:70px;" value="닫기">
+	<font size="3" color="black">labels</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<font size="3" color="black">values</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+	<textarea id="dropdownLabels" rows="6" cols="10"></textarea>&nbsp;
+	<textarea id="dropdownValues" rows="6" cols="10"></textarea><br/>
+	<input type="checkbox" name="chk_display" value="lookupDisplay"><font size="3" color="black">lookupDisplay</font>
+	<br/><br/>
+    <input type="button" id="btnSaveDD" onclick="javascript:dropdownDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseDD" style="width:70px;" value="닫기">
     <a href="http://help.realgrid.com/api/features/Cell%20Editor/" target="_blank"><b>help</b></a>
 </div>
 
 <div id="directNF">
-	<font size="6" color="black">직접입력</font><br/><br/>
+	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="directInputNF" style="width:170px;"><br/>
+	<input type="text" id="directInputNF" style="width:200px;"><br/>
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="btnDirectSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseNF" style="width:70px;" value="닫기">
@@ -683,9 +696,9 @@ function datetimeDesignerSave() {
 </div>
 
 <div id="directDF">
-	<font size="6" color="black">직접입력</font><br/><br/>
+	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
-	<input type="text" id="directInputDF" style="width:176px;"><br/>
+	<input type="text" id="directInputDF" style="width:200px;"><br/>
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="btnDirectSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseDF" style="width:70px;" value="닫기">
