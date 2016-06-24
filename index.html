@@ -431,7 +431,7 @@ function createColumns() {
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
-					wSpace1 + wSpace2 + 'type: "' + editor[i] + '"\n' +
+					wSpace1 + wSpace2 + 'type: "number"\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
@@ -440,6 +440,15 @@ function createColumns() {
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
+					wSpace2 + '},\n' +
+					wSpace2 + 'styles: {\n' +
+					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + '},\n'
+				}
+				if (dataType[i] == "dropdown"){
+					addColumns += wSpace2 + 'editor: {\n' +
+					wSpace1 + wSpace2 + 'values "' + editor[i] + '",\n' +
+					wSpace1 + wSpace2 + 'labels "' + editor[i] + '",\n' +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
@@ -596,6 +605,44 @@ function dropdownDesignerSave() {
 
 }
 
+// 저장
+function saveTextAsFile(){
+	var textToWrite = document.getElementById("sourceCode").value;
+	var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+	var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
+
+	var downloadLink = document.createElement("a");
+	downloadLink.download = fileNameToSaveAs;
+	downloadLink.innerHTML = "Download File";
+	if (window.webkitURL != null){
+		downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	}else {
+		downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+		downloadLink.onclick = destroyClickedElement;
+		downloadLink.style.display = "none";
+		document.body.appendChild(downloadLink);
+	}
+
+	downloadLink.click();
+}
+
+function destroyClickedElement(event){
+	document.body.removeChild(event.target);
+}
+
+function loadFileAsText(){
+	var fileToLoad = document.getElementById("fileToLoad").files[0];
+
+	var fileReader = new FileReader();
+	fileReader.onload = function(fileLoadedEvent) {
+		var textFromFileLoaded = fileLoadedEvent.target.result;
+		document.getElementById("sourceCode").value = textFromFileLoaded;
+	};
+	fileReader.readAsText(fileToLoad, "UTF-8");
+}
+
+</script>
+
 </script>
 </head>
 <body>
@@ -620,6 +667,9 @@ function dropdownDesignerSave() {
 <div id="d_right">
 	<center><h3>RealGrid HTML Text 출력</h3></center>
 	<span style="float:right">
+	Filename to Save As:
+	<input id="inputFileNameToSaveAs">
+	<button onclick="saveTextAsFile()">Save Text to File</button>
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
 	<textarea id="sourceCode"readonly="readonly" rows="30" cols="82">
 	</textarea>
