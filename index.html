@@ -23,9 +23,14 @@
 	height: 700px;
 }
 .designer {
-  width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
-  position:absolute; top:124px; left:840px; text-align:center; 
-  border:2px solid #000;
+	width:270px; height:295px; background-color: rgba(250, 250, 250, 1); color:#fff;
+	position:absolute; top:124px; left:840px; text-align:center; 
+	border:2px solid #000;
+}
+.styleClass {
+	width:350px; height:350px; background-color: rgba(250, 250, 250, 1); color:#fff;
+	position:absolute; top:124px; left:840px; text-align:center; 
+	border:2px solid #000;
 }
 
 </style>
@@ -55,6 +60,9 @@ $(document).ready( function() {
 	$("#selectDF").change(function() {
 		document.getElementById('inputDF').value = document.getElementById('selectDF').value;
 	})
+	$("#selectNSFormat").change(function() {
+		document.getElementById('inputNSFormat').value = document.getElementById('selectNSFormat').value;
+	})
 	RealGridJS.setTrace(false);
 	RealGridJS.setRootContext("/scripts");
 
@@ -69,17 +77,28 @@ $(document).ready( function() {
 	designerDisplay();
 
 	grdMain.onCellButtonClicked =  function (grid, itemIndex, column) {
-		cellButtionItemIndex = itemIndex;
+		cellButtonItemIndex = itemIndex;
 		designerDisplay();
 		var cellButton = grdMain.getValue(itemIndex, 4);
 		if (cellButton == "number" && column.name == "col6"){
-			numberDesigner();
+			//numberDesigner();
 		}else if(cellButton == "datetime" && column.name == "col6"){
 			datetimeDesigner();
 		}else if(cellButton == "boolean" && column.name == "col6"){
 			booleanDesigner();
 		}else if(cellButton == "dropdown" && column.name == "col6"){
 			dropdownDesigner();
+		}
+
+		var cellButton = grdMain.getValue(itemIndex, 4);
+		if (cellButton == "number" && column.name == "col7"){
+			numberStyleDesigner();
+		}else if(cellButton == "datetime" && column.name == "col7"){
+			datetimeStyleDesigner();
+		}else if(cellButton == "boolean" && column.name == "col7"){
+			booleanStyleDesigner();
+		}else if(cellButton == "dropdown" && column.name == "col7"){
+			dropdownStyleDesigner();
 		}
 		
 	};
@@ -88,6 +107,9 @@ $(document).ready( function() {
 		if (field == 4){
 			if(oldValue == newValue){
 
+			}else if(newValue == "number"){
+				designerDisplay();
+				grdMain.setValue(itemIndex,"field6","number")
 			}else {
 				designerDisplay();
 				grdMain.setValue(itemIndex,"field6","")
@@ -115,6 +137,10 @@ function setFields(provider) {
 		fieldName: "field7"
 	}, {
 		fieldName: "field8"
+	}, {
+		fieldName: "field9"
+	}, {
+		fieldName: "field10"
 	}];
 
 	provider.setFields(fields);
@@ -201,6 +227,22 @@ function setColumns(grid) {
 		},
 		visible: false,
 		width: 50
+	}, {
+		name: "col9",
+		fieldName: "field9",
+		header: {
+			text: "background"
+		},
+		visible: false,
+		width: 50
+	}, {
+		name: "col10",
+		fieldName: "field10",
+		header: {
+			text: "textAlignment"
+		},
+		visible: false,
+		width: 50
 	}]
 
 	grid.setColumns(columns);
@@ -213,12 +255,17 @@ function designerDisplay() {
 	var dropdownD = document.getElementById('dropdownDesigner');
 	var directNF = document.getElementById('directNF');
 	var directDF = document.getElementById('directDF');
+	var numberSD = document.getElementById('numberStyleDesigner');
+	var directNSF = document.getElementById('directNSF');
 	numberD.style.display = "none";
 	dateD.style.display = "none";
 	booleanD.style.display = "none";
 	dropdownD.style.display = "none";
 	directNF.style.display = "none";
 	directDF.style.display = "none";
+	numberSD.style.display = "none";
+	directNSF.style.display = "none";
+
 
 }
 
@@ -403,9 +450,9 @@ function createColumns() {
 				if (dataType[i] == "dropdown"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'type: "dropDown",\n' +
-					wSpace1 + wSpace2 + "dropDownCount: 4,\n" +					
-					wSpace1 + wSpace2 + "values: '[" + values[i].split(",") + "]',\n" +
-					wSpace1 + wSpace2 + "labels: '[" + editor[i].split(",") + "]'\n" +
+					wSpace1 + wSpace2 + "dropDownCount: 4,\n" +
+					wSpace1 + wSpace2 + "values: " + JSON.stringify(editor[i].split(",")) + ",\n" +
+					wSpace1 + wSpace2 + "labels: " + JSON.stringify(values[i].split(",")) + "\n" +
 					wSpace2 + '},\n' +
 					wSpace2 + 'styles: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
@@ -486,6 +533,8 @@ function buidPreview() {
   	doc.close();
 }
 
+// editorDesigner
+/*
 function numberDesigner() {
 	var objDiv = document.getElementById('numberDesigner');
 
@@ -511,7 +560,7 @@ function numberDesigner() {
     });
 
 }
-
+*/
 function datetimeDesigner() {
 	var objDiv = document.getElementById('datetimeDesigner');
 
@@ -572,24 +621,24 @@ function dropdownDesigner() {
     });
 
 }
-
+/*
 function numberDesignerSave() {
     var formatValue = document.getElementById('inputNF').value;
     var inputValue = document.getElementById('directInputNF').value;
     if (inputValue.length > 0){
-    	grdMain.setValue(cellButtionItemIndex,5, inputValue);
+    	grdMain.setValue(cellButtonItemIndex,5, inputValue);
     }else if (document.getElementById('directNF').style.display == "none"){
-    	grdMain.setValue(cellButtionItemIndex,5, formatValue);
+    	grdMain.setValue(cellButtonItemIndex,5, formatValue);
 	}
 }
-
+*/
 function datetimeDesignerSave() {
     var selectValue = document.getElementById('inputDF').value;
     var directValue = document.getElementById('directInputDF').value;
     if (directValue.length > 0){
-    	grdMain.setValue(cellButtionItemIndex,5, directValue);
+    	grdMain.setValue(cellButtonItemIndex,5, directValue);
     }else if (document.getElementById('directDF').style.display == "none"){
-    	grdMain.setValue(cellButtionItemIndex,5, selectValue);
+    	grdMain.setValue(cellButtonItemIndex,5, selectValue);
 	}
 }
 
@@ -599,7 +648,7 @@ function booleanDesignerSave() {
     var booleanCase = document.getElementById('inputCase').value;
     var booleanEditor = booleanFalse + ":" + booleanTrue + ":" + booleanCase;
     if(booleanFalse.length > 0 && booleanTrue.length > 0 && booleanCase.length > 0){
-    	grdMain.setValue(cellButtionItemIndex,5, booleanEditor);
+    	grdMain.setValue(cellButtonItemIndex,5, booleanEditor);
 	}else {
 		alert("모든 조건을 입력해 주세요.")
 	}
@@ -609,9 +658,46 @@ function dropdownDesignerSave() {
     var labels = document.getElementById('dropdownLabels').value.split("\n");
     var values = document.getElementById('dropdownValues').value.split("\n");
 
-    grdMain.setValue(cellButtionItemIndex,5, labels);
-    grdMain.setValue(cellButtionItemIndex,7, values);
+    grdMain.setValue(cellButtonItemIndex,5, labels);
+    grdMain.setValue(cellButtonItemIndex,7, values);
 
+}
+
+// styleDesigner
+function numberStyleDesigner() {
+	var objDiv = document.getElementById('numberStyleDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#btnDirectInputNSF').click(function() {
+		var numberInput = document.getElementById('directNSF')
+        numberInput.style.display = "block"
+    });
+
+	$('#btnCloseNSF').click(function() {
+        $('#numberStyleDesigner').hide();
+        document.getElementById('inputNSFormat').value = ""
+    });
+    $('#btnDirectCloseNSF').click(function() {
+        var numberInput = document.getElementById('directNSF')
+        numberInput.style.display = "none"
+        document.getElementById('directInputNSF').value = ""
+    });
+
+}
+
+function numberStyleDesignerSave() {
+    var formatValue = document.getElementById('inputNSFormat').value;
+    var inputValue = document.getElementById('directInputNSF').value;
+    if (inputValue.length > 0){
+    	grdMain.setValue(cellButtonItemIndex,6, inputValue);
+    }else if (document.getElementById('directNF').style.display == "none"){
+    	grdMain.setValue(cellButtonItemIndex,6, formatValue);
+	}
 }
 
 // 저장
@@ -661,7 +747,7 @@ function saveTextAsFile(){
 <div id="d_right">
 	<center><h3>RealGrid HTML Text 출력</h3></center>
 	<span style="float:right">
-	Filename to Save As:
+	FileName to Save As:
 	<input id="inputFileNameToSaveAs">
 	<input type="button" onclick="saveTextAsFile()" value="Save Text to File">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
@@ -673,7 +759,7 @@ function saveTextAsFile(){
 	<input type="button" onclick="javascript:buidPreview();" value="designerView"><br/>
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
-
+<!--editorDesigner-->
 <div id="numberDesigner" class="designer">
 	<font size="6" color="black">numberDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
@@ -741,7 +827,36 @@ function saveTextAsFile(){
     <input type="button" id="btnCloseDD" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
-
+<!--styleDesigner-->
+<div id="numberStyleDesigner" class="styleClass">
+	<font size="5" color="black">numberStyleDesigner</font><br/><br/>
+	<font size="4" color="black">background</font><br/>
+	<input type="text" id="inputNSBackground" style="width:200px;" title="ex) #ffffffff"><br/><br/>
+	<font size="4" color="black">textAlignment</font><br/>
+	<font size="3" color="black">
+	<input type="radio" name="chk_textAlignment" value="far">far
+	<input type="radio" name="chk_textAlignment" value="center">center
+	<input type="radio" name="chk_textAlignment" value="near">near
+	</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<font size="2" color="black">보기</font>
+	<input type="text" id="inputNSFormat" readonly="readonly" style="width:200px;"><br/>
+	<font size="2" color="black">형식</font>
+	<select  id="selectNSFormat">
+	<option value="">format선택</option>
+    <option value="#,###">#,###</option>
+    <option value="#,000">#,000</option>
+    <option value="#,###.##">#,###.##</option>
+    <option value="#,###.00">#,###.00</option>
+	</select>&nbsp;
+	<input type="button" id="btnDirectInputNSF" style="width:100px;" value="사용자 지정">
+	<br/><br/>
+    <input type="button" id="btnSaveNSF" onclick="javascript:numberStyleDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseNSF" style="width:70px;" value="닫기">
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
+</div>
+<!--사용자 지정-->
+<!--
 <div id="directNF" class="designer">
 	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
@@ -751,7 +866,7 @@ function saveTextAsFile(){
     <input type="button" id="btnDirectCloseNF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
-
+-->
 <div id="directDF" class="designer">
 	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
@@ -760,6 +875,17 @@ function saveTextAsFile(){
     <input type="button" id="btnDirectSaveDF" onclick="javascript:datetimeDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseDF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
+</div> 
+
+<div id="directNSF" class="designer">
+	<font size="6" color="black">사용자 지정</font><br/><br/>
+	<font size="4" color="black">numberFormat</font><br/>
+	<input type="text" id="directInputNSF" style="width:200px;"><br/>
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="btnDirectSaveNSF" onclick="javascript:numberStyleDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnDirectCloseNSF" style="width:70px;" value="닫기">
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
+
 </body>
 </html>
