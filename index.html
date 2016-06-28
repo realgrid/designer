@@ -249,22 +249,24 @@ function setColumns(grid) {
 }
 
 function designerDisplay() {
-	var numberD = document.getElementById('numberDesigner');
+	//var numberD = document.getElementById('numberDesigner');
 	var dateD = document.getElementById('datetimeDesigner');
 	var booleanD = document.getElementById('booleanDesigner');
 	var dropdownD = document.getElementById('dropdownDesigner');
-	var directNF = document.getElementById('directNF');
+	//var directNF = document.getElementById('directNF');
 	var directDF = document.getElementById('directDF');
 	var numberSD = document.getElementById('numberStyleDesigner');
 	var directNSF = document.getElementById('directNSF');
-	numberD.style.display = "none";
+	var booleanSD = document.getElementById('booleanStyleDesigner');
+	//numberD.style.display = "none";
 	dateD.style.display = "none";
 	booleanD.style.display = "none";
 	dropdownD.style.display = "none";
-	directNF.style.display = "none";
+	//directNF.style.display = "none";
 	directDF.style.display = "none";
 	numberSD.style.display = "none";
 	directNSF.style.display = "none";
+	booleanSD.style.display = "none";
 
 
 }
@@ -413,6 +415,8 @@ function createColumns() {
 	var editor = dataProvider.getFieldValues("field6");
 	var style = dataProvider.getFieldValues("field7");
 	var values = dataProvider.getFieldValues("field8");
+	var background = dataProvider.getFieldValues("field9");
+	var textAlignment = dataProvider.getFieldValues("field10");
 	var addColumns = 'function setColumns(grid) {\n    var columns = ['
 	for (var i = 0; i < itemCount; i++){
 		if(i < itemCount -1){
@@ -427,24 +431,42 @@ function createColumns() {
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'booleanFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'type: "number"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "dropdown"){
@@ -454,8 +476,13 @@ function createColumns() {
 					wSpace1 + wSpace2 + "values: " + JSON.stringify(editor[i].split(",")) + ",\n" +
 					wSpace1 + wSpace2 + "labels: " + JSON.stringify(values[i].split(",")) + "\n" +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '"\n' 
+					}
 					wSpace2 + '},\n'
 				}
 			}
@@ -473,24 +500,42 @@ function createColumns() {
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'booleanFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'booleanFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "number"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'type: "number"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'numberFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "datetime"){
 					addColumns += wSpace2 + 'editor: {\n' +
 					wSpace1 + wSpace2 + 'datetimeFormat: "' + editor[i] + '"\n' +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '",\n' 
+					}
+					addColumns += wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
 					wSpace2 + '},\n'
 				}
 				if (dataType[i] == "dropdown"){
@@ -500,8 +545,13 @@ function createColumns() {
 					wSpace1 + wSpace2 + "values: " + JSON.stringify(editor[i].split(",")) + ",\n" +
 					wSpace1 + wSpace2 + "labels: " + JSON.stringify(values[i].split(",")) + "\n" +
 					wSpace2 + '},\n' +
-					wSpace2 + 'styles: {\n' +
-					wSpace1 + wSpace2 + 'datetimeFormat: "' + style[i] + '"\n' +
+					wSpace2 + 'styles: {\n'
+					if (background[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'background: "' + background[i] + '",\n' 
+					}
+					if (textAlignment[i].length > 0){
+						addColumns += wSpace1 + wSpace2 + 'textAlignment: "' + textAlignment[i] + '"\n' 
+					}
 					wSpace2 + '},\n'
 				}
 			}
@@ -693,11 +743,46 @@ function numberStyleDesigner() {
 function numberStyleDesignerSave() {
     var formatValue = document.getElementById('inputNSFormat').value;
     var inputValue = document.getElementById('directInputNSF').value;
+    var background = document.getElementById('inputNSBackground').value;
+    var textAlignment = $(':radio[name="chk_textAlignment"]:checked').val();
+
     if (inputValue.length > 0){
-    	grdMain.setValue(cellButtonItemIndex,6, inputValue);
-    }else if (document.getElementById('directNF').style.display == "none"){
+    	document.getElementById('inputNSFormat').value = document.getElementById('directInputNSF').value;
+    }else if (document.getElementById('directNSF').style.display == "none"){
     	grdMain.setValue(cellButtonItemIndex,6, formatValue);
+    	grdMain.setValue(cellButtonItemIndex,8, background);
+    	grdMain.setValue(cellButtonItemIndex,9, textAlignment);
 	}
+}
+
+function booleanStyleDesigner() {
+	var objDiv = document.getElementById('booleanStyleDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+	$('#btnCloseBSF').click(function() {
+        $('#booleanStyleDesigner').hide();
+        document.getElementById('inputNSFormat').value = ""
+    });
+
+}
+
+function booleanStyleDesignerSave() {
+	var booleanFormat;
+    var falseLookup = document.getElementById('falseLookup').value;
+    var trueLookup = document.getElementById('trueLookup').value;
+    var background = document.getElementById('inputBSBackground').value;
+    var textAlignment = $(':radio[name="chk_textAlignment"]:checked').val();
+    booleanFormat = falseLookup + ":" + trueLookup;
+
+	grdMain.setValue(cellButtonItemIndex,6, booleanFormat);
+	grdMain.setValue(cellButtonItemIndex,8, background);
+	grdMain.setValue(cellButtonItemIndex,9, textAlignment);
+	
 }
 
 // 저장
@@ -760,6 +845,7 @@ function saveTextAsFile(){
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
 <!--editorDesigner-->
+<!--
 <div id="numberDesigner" class="designer">
 	<font size="6" color="black">numberDesigner</font><br/><br/>
 	<font size="4" color="black">numberFormat</font><br/>
@@ -779,7 +865,7 @@ function saveTextAsFile(){
     <input type="button" id="btnCloseNF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
-
+-->
 <div id="datetimeDesigner" class="designer">
 	<font size="6" color="black">datetimeDesigner</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
@@ -855,6 +941,29 @@ function saveTextAsFile(){
     <input type="button" id="btnCloseNSF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
+<div id="booleanStyleDesigner" class="styleClass">
+	<font size="5" color="black">booleanStyleDesigner</font><br/><br/>
+	<font size="4" color="black">background</font><br/>
+	<input type="text" id="inputBSBackground" style="width:200px;" title="ex) #ffffffff"><br/><br/>
+	<font size="4" color="black">textAlignment</font><br/>
+	<font size="3" color="black">
+	<input type="radio" name="chk_textAlignment" value="far">far
+	<input type="radio" name="chk_textAlignment" value="center">center
+	<input type="radio" name="chk_textAlignment" value="near">near
+	</font><br/><br/>
+	<font size="4" color="black">booleanStyleFormat</font><br/>
+	<font size="2" color="black">
+	거짓:
+	<input type="text" id="falseLookup" style="width:200px;"><br/>
+	참:
+	<input type="text" id="trueLookup" style="width:200px;"><br/>
+	</font>
+	<br/><br/>
+    <input type="button" id="btnSaveBSF" onclick="javascript:booleanStyleDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseBSF" style="width:70px;" value="닫기">
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
+</div>
+
 <!--사용자 지정-->
 <!--
 <div id="directNF" class="designer">
