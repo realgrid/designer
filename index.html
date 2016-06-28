@@ -54,14 +54,14 @@ var wSpace2 = "        ";
 var cellButtonItemIndex;
 
 $(document).ready( function() {
-	$("#selectNF").change(function() {
-		document.getElementById('inputNF').value = document.getElementById('selectNF').value;
-	})
 	$("#selectDF").change(function() {
 		document.getElementById('inputDF').value = document.getElementById('selectDF').value;
 	})
 	$("#selectNSFormat").change(function() {
 		document.getElementById('inputNSFormat').value = document.getElementById('selectNSFormat').value;
+	})
+	$("#selectDSF").change(function() {
+		document.getElementById('inputDSF').value = document.getElementById('selectDSF').value;
 	})
 	RealGridJS.setTrace(false);
 	RealGridJS.setRootContext("/scripts");
@@ -258,6 +258,8 @@ function designerDisplay() {
 	var numberSD = document.getElementById('numberStyleDesigner');
 	var directNSF = document.getElementById('directNSF');
 	var booleanSD = document.getElementById('booleanStyleDesigner');
+	var datetimeSD = document.getElementById('datetimeStyleDesigner');
+	var directDSD = document.getElementById('directDSF');
 	//numberD.style.display = "none";
 	dateD.style.display = "none";
 	booleanD.style.display = "none";
@@ -267,7 +269,8 @@ function designerDisplay() {
 	numberSD.style.display = "none";
 	directNSF.style.display = "none";
 	booleanSD.style.display = "none";
-
+	datetimeSD.style.display = "none";
+	directDSD.style.display = "none";
 
 }
 
@@ -785,6 +788,48 @@ function booleanStyleDesignerSave() {
 	
 }
 
+function datetimeStyleDesigner() {
+	var objDiv = document.getElementById('datetimeStyleDesigner');
+
+    if(objDiv.style.display == "block"){ 
+    	objDiv.style.display = "none"; 
+    }else { 
+    	objDiv.style.display = "block"; 
+    }
+
+    $('#btnDirectInputDDF').click(function() {
+		var datetimeInput = document.getElementById('directDSF')
+        datetimeInput.style.display = "block"
+    });
+
+	$('#btnCloseDSF').click(function() {
+        $('#datetimeStyleDesigner').hide();
+        document.getElementById('inputDSF').value = ""
+    });
+
+    $('#btnDirectCloseDSF').click(function() {
+        $('#directDSF').hide();
+        document.getElementById('directInputDSF').value = ""
+    });
+
+}
+
+function datetimeStyleDesignerSave() {
+    var formatValue = document.getElementById('inputDSF').value;
+    var inputValue = document.getElementById('directInputDSF').value;
+    var background = document.getElementById('inputDSBackground').value;
+    var textAlignment = $(':radio[name="chk_textAlignment"]:checked').val();
+    booleanFormat = falseLookup + ":" + trueLookup;
+
+	if (inputValue.length > 0){
+    	document.getElementById('inputDSF').value = document.getElementById('directInputDSF').value;
+    }else if (document.getElementById('directDSF').style.display == "none"){
+    	grdMain.setValue(cellButtonItemIndex,6, formatValue);
+    	grdMain.setValue(cellButtonItemIndex,8, background);
+    	grdMain.setValue(cellButtonItemIndex,9, textAlignment);
+	}
+}
+
 // 저장
 function saveTextAsFile(){
 	var textToWrite = document.getElementById("sourceCode").value;
@@ -963,6 +1008,30 @@ function saveTextAsFile(){
     <input type="button" id="btnCloseBSF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
+<div id="datetimeStyleDesigner" class="styleClass">
+	<font size="5" color="black">datetimeStyleDesigner</font><br/><br/>
+	<font size="4" color="black">background</font><br/>
+	<input type="text" id="inputDSBackground" style="width:200px;" title="ex) #ffffffff"><br/><br/>
+	<font size="4" color="black">textAlignment</font><br/>
+	<font size="3" color="black">
+	<input type="radio" name="chk_textAlignment" value="far">far
+	<input type="radio" name="chk_textAlignment" value="center">center
+	<input type="radio" name="chk_textAlignment" value="near">near<br/><br/>
+	<font size="2" color="black">보기</font>
+	<input type="text" id="inputDSF" readonly="readonly" style="width:200px;"><br/><br/>
+	<font size="2" color="black">형식</font>
+	<select  id="selectDSF">
+	<option value="">format선택</option>
+    <option value="yyyyMMdd">yyyyMMdd</option>
+    <option value="yyyy.MM.dd">yyyy.MM.dd</option>
+    <option value="yyyy/MM/dd">yyyy/MM/dd</option>
+    <option value="yyyy-MM-dd">yyyy-MM-dd</option>
+	</select>&nbsp;
+	<input type="button" id="btnDirectInputDDF" style="width:100px;" value="사용자 지정"><br/><br/>
+    <input type="button" id="btnSaveDSF" onclick="javascript:datetimeStyleDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnCloseDSF" style="width:70px;" value="닫기">
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
+</div>
 
 <!--사용자 지정-->
 <!--
@@ -993,6 +1062,16 @@ function saveTextAsFile(){
 	<br/><br/><br/><br/><br/><br/>
     <input type="button" id="btnDirectSaveNSF" onclick="javascript:numberStyleDesignerSave();" style="width:70px;" value="적용">
     <input type="button" id="btnDirectCloseNSF" style="width:70px;" value="닫기">
+    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
+</div>
+
+<div id="directDSF" class="designer">
+	<font size="6" color="black">사용자 지정</font><br/><br/>
+	<font size="4" color="black">datetimeFormat</font><br/>
+	<input type="text" id="directInputDSF" style="width:200px;"><br/>
+	<br/><br/><br/><br/><br/><br/>
+    <input type="button" id="btnDirectSaveDSF" onclick="javascript:datetimeStyleDesignerSave();" style="width:70px;" value="적용">
+    <input type="button" id="btnDirectCloseDSF" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
 
