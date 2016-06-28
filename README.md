@@ -13,9 +13,9 @@
 RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 기초 설정을 간단하게 세팅할 수 있습니다. 
 
 * 그리드에 기본 library경로 및 버전을 지정한다.
-* RealGridDesigner에 생성되어 있는 그리드에 컬럼을 추가하여 원하는 행을 만든다. 
-* 생성된 각 컬럼의 필드 정보부터 style까지 속성을 설정한다.
-* editor와 sytle은 버튼을 눌러 해당 type에 맞는 디자이너화면을 출력하여 format을 입력한다.
+* RealGridDesigner에 생성되어 있는 그리드에 컬럼을 추가하여 원하는 컬럼개수 만큼 만든다. 
+* 생성된 각 컬럼을 필드 정보부터 style까지 속성을 설정한다.
+* editor와 sytle은 해당 셀에있는 버튼을 눌러 해당 type에 맞는 디자이너화면을 출력하여 format을 입력한다.
 * 컬럼 생성이 완료 되면 RealGird HTML Text출력의 미리보기를 선택하여 출력되는 html문서를 확인한다.
 * html문서에 이상이 없으면 RealGrid출력화면 미리보기에서 designerView버튼으로 사용할 그리드의 결과물을 확인한다.
 * 그리드 미리보기 화면에 이상이 없으면 미리보기 화면으로 구성된 html코드를 파일로 추출하여 사용한다.
@@ -71,6 +71,8 @@ RealGrid를 사용하여 RealGridjs버전의 그리드 생성시에 필요한 �
 ![ver0.5-1.jpg](./images/ver0.5-1.jpg)
 
 2). 진행사항
+
+[버전0.5 진행사항 보기](https://github.com/realgrid/designer/releases)
 
 ### 버전 0.6
 
