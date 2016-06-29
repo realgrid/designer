@@ -611,7 +611,6 @@ function fullSource() {
 }
 
 function buidPreview() {
-	var designerView = getHtml();
 	var iframe = document.getElementById("resultGrid");
 	var doc = iframe.contentDocument;
 
@@ -623,7 +622,8 @@ function buidPreview() {
 }
 
 function restart() {
-	var designerView = getHtml();
+	//var designerView = getHtml();
+	var designerView = $("#sourceCode").val();
 	var iframe = document.getElementById("resultGrid");
 	var doc = iframe.contentDocument;
 
