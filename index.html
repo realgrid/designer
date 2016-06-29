@@ -615,15 +615,23 @@ function buidPreview() {
 	var iframe = document.getElementById("resultGrid");
 	var doc = iframe.contentDocument;
 
-		doc.open();
- 		doc.value = "";
-  		doc.close();
+	document.getElementById("resultGrid").contentWindow.location.reload(true);
 
-		doc.open();
-  		doc.write(designerView);
-  		doc.close();
+	setTimeout("restart()", 100); 
+	
     
 }
+
+function restart() {
+	var designerView = getHtml();
+	var iframe = document.getElementById("resultGrid");
+	var doc = iframe.contentDocument;
+
+	doc.open();
+  	doc.write(designerView);
+  	doc.close();
+}
+
 
 // editorDesigner
 /*
@@ -949,7 +957,7 @@ function saveTextAsFile(){
 </div>
 <div id="contents">
 	<center><h4>RealGrid 출력화면 미리보기</h4></center>
-	<input type="button" onclick="javascript:buidPreview();" value="designerView"><br/>
+	<input type="button" onclick="javascript:buidPreview();" value="출력화면 미리보기"><br/>
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
 <!--editorDesigner-->
