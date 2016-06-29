@@ -634,33 +634,6 @@ function restart() {
 
 
 // editorDesigner
-/*
-function numberDesigner() {
-	var objDiv = document.getElementById('numberDesigner');
-
-    if(objDiv.style.display == "block"){ 
-    	objDiv.style.display = "none"; 
-    }else { 
-    	objDiv.style.display = "block"; 
-    }
-
-	$('#btnDirectInputNF').click(function() {
-		var numberInput = document.getElementById('directNF')
-        numberInput.style.display = "block"
-    });
-
-	$('#btnCloseNF').click(function() {
-        $('#numberDesigner').hide();
-        document.getElementById('inputNF').value = ""
-    });
-    $('#btnDirectCloseNF').click(function() {
-        var numberInput = document.getElementById('directNF')
-        numberInput.style.display = "none"
-        document.getElementById('directInputNF').value = ""
-    });
-
-}
-*/
 function datetimeDesigner() {
 	var objDiv = document.getElementById('datetimeDesigner');
 
@@ -721,17 +694,7 @@ function dropdownDesigner() {
     });
 
 }
-/*
-function numberDesignerSave() {
-    var formatValue = document.getElementById('inputNF').value;
-    var inputValue = document.getElementById('directInputNF').value;
-    if (inputValue.length > 0){
-    	grdMain.setValue(cellButtonItemIndex,5, inputValue);
-    }else if (document.getElementById('directNF').style.display == "none"){
-    	grdMain.setValue(cellButtonItemIndex,5, formatValue);
-	}
-}
-*/
+
 function datetimeDesignerSave() {
     var selectValue = document.getElementById('inputDF').value;
     var directValue = document.getElementById('directInputDF').value;
@@ -922,6 +885,16 @@ function saveTextAsFile(){
 	downloadLink.click();
 }
 
+function blockKey(item){
+if(event.keyCode==9) {
+item.focus();
+space = " ";
+item.selection=document.selection.createRange();
+item.selection.text=space;
+event.returnValue = false; 
+} 
+}
+
 </script>
 
 </script>
@@ -952,7 +925,7 @@ function saveTextAsFile(){
 	<input id="inputFileNameToSaveAs">
 	<input type="button" onclick="saveTextAsFile()" value="Save Text to File">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
-	<textarea id="sourceCode" rows="30" cols="82">
+	<textarea id="sourceCode" onkeydown="blockKey(this);" rows="30" cols="82">
 	</textarea>
 </div>
 <div id="contents">
@@ -960,28 +933,8 @@ function saveTextAsFile(){
 	<input type="button" onclick="javascript:buidPreview();" value="출력화면 미리보기"><br/>
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
+
 <!--editorDesigner-->
-<!--
-<div id="numberDesigner" class="designer">
-	<font size="6" color="black">numberDesigner</font><br/><br/>
-	<font size="4" color="black">numberFormat</font><br/>
-	<font size="2" color="black">보기</font>
-	<input type="text" id="inputNF" readonly="readonly" style="width:200px;"><br/><br/>
-	<font size="2" color="black">형식</font>
-	<select  id="selectNF">
-	<option value="">format선택</option>
-    <option value="#,###">#,###</option>
-    <option value="#,000">#,000</option>
-    <option value="#,###.##">#,###.##</option>
-    <option value="#,###.00">#,###.00</option>
-	</select>&nbsp;
-	<input type="button" id="btnDirectInputNF" style="width:100px;" value="사용자 지정">
-	<br/><br/><br/><br/><br/>
-    <input type="button" id="btnSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
-    <input type="button" id="btnCloseNF" style="width:70px;" value="닫기">
-    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
-</div>
--->
 <div id="datetimeDesigner" class="designer">
 	<font size="6" color="black">datetimeDesigner</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
@@ -1029,6 +982,7 @@ function saveTextAsFile(){
     <input type="button" id="btnCloseDD" style="width:70px;" value="닫기">
     <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
 </div>
+
 <!--styleDesigner-->
 <div id="numberStyleDesigner" class="styleClass">
 	<font size="5" color="black">numberStyleDesigner</font><br/><br/>
@@ -1119,17 +1073,6 @@ function saveTextAsFile(){
 </div>
 
 <!--사용자 지정-->
-<!--
-<div id="directNF" class="designer">
-	<font size="6" color="black">사용자 지정</font><br/><br/>
-	<font size="4" color="black">numberFormat</font><br/>
-	<input type="text" id="directInputNF" style="width:200px;"><br/>
-	<br/><br/><br/><br/><br/><br/>
-    <input type="button" id="btnDirectSaveNF" onclick="javascript:numberDesignerSave();" style="width:70px;" value="적용">
-    <input type="button" id="btnDirectCloseNF" style="width:70px;" value="닫기">
-    <a href="http://demo.realgrid.com/Demo/DataType" target="_blank"><b>help</b></a>
-</div>
--->
 <div id="directDF" class="designer">
 	<font size="6" color="black">사용자 지정</font><br/><br/>
 	<font size="4" color="black">datetimeFormat</font><br/>
