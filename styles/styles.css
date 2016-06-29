@@ -1,0 +1,18 @@
+body {
+  padding-top: 0px;
+}
+.designer-page-header {
+    color: #fff;
+}
+.toolbar {
+  padding: 15px;
+}
+.designer {
+  padding: 15px 30px;
+}
+.code-editor {
+    padding: 15px 30px;
+}
+.viewer {
+    padding: 15px 30px;
+}

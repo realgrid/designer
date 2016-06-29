@@ -8,8 +8,8 @@
     <title>RealGrid Designer</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles/styles.css"
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -19,48 +19,45 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">
-                    RealGrid Designer
-                </a>
+    <div class="row designer">
+        <h2>RealGrid Designer</h2>
+        <div class="row toolbar">
+            <div class="col-md-8">
+                <button id="addColumn" class="btn btn-default btn-xs">컬럼 추가하기</button>
+                <button class="btn btn-default btn-xs">버튼2</button>
+                <button class="btn btn-default btn-xs">버튼3</button>
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control input-sm" />
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control input-sm" />
             </div>
         </div>
-    </nav>
+        <div id="designer" style="width: 100%; height: 300px;"></div>
+    </div>
 
-    <div class="container">
-        <div class="panel panel-default">
-            <div class="panel-heading">Designer</div>
-            <div class="panel-body">
-                <div class="col-md-12">
-                    <button id="addColumn" class="btn btn-defaultn btn-xs">컬럼 추가하기</button>
-                </div>
-            </div>
-            <div id="designer" style="width: 100%; height: 300px;"></div>
+    <div class="row code-editor">
+        <!-- Nav tabs -->
+         <ul class="nav nav-tabs" role="tablist">
+           <li role="presentation" class="active">
+               <a href="#preview" aria-controls="preview" role="tab" data-toggle="tab">Preview</a>
+           </li>
+           <li role="presentation">
+               <a href="#htmlcode" aria-controls="htmlcode" role="tab" data-toggle="tab">Code Editor</a>
+           </li>
+         </ul>
+    </div>
+
+    <!-- Tab panes -->
+    <div id="viewTab" class="tab-content code-editor">
+        <div role="tabpanel" class="tab-pane active" id="preview">
+            <iframe id="viewer" src="http://www.realgrid.com" width="100%" height="300px"></iframe>
         </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Code Editer</div>
-                    <div class="panel-body">
-                    </div>
-                    <textarea id="codeEditer" class="form-control" rows="3"></textarea>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Preview</div>
-                    <div class="panel-body">
-                    </div>
-                    <div id="viewer"></div>
-                </div>
-            </div>
-        </div>
-
-    </div><!-- /.container -->
-
+      <div role="tabpanel" class="tab-pane" id="htmlcode">
+          <textarea id="codeeditor" class="form-control" rows="3"></textarea>
+      </div>
+    </div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -79,7 +76,7 @@
     <script src="realgrid-designer/realgrid-designer.js"></script>
 
     <script>
-    var codeEditer;
+    var codeeditor;
     var viewer;
 
     $(document).ready(function() {
@@ -87,12 +84,17 @@
         realGridDesigner.create("/scripts", "designer");
         var sourceCode = realGridDesigner.getSourceCode();
 
-        $("#codeEditer").text(sourceCode);
+        $("#codeeditor").text(sourceCode);
 
         $("#addColumn").click(function() {
             realGridDesigner.addColumn();
         })
     });
+
+    $('#viewTab a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
     </script>
 
 </body>
