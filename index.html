@@ -363,12 +363,6 @@ function docReady() {
 	wSpace1 + 'grdMain.setDataSource(dataProvider);\n\n' +
 	wSpace1 + 'setFields(dataProvider);\n' +
 	wSpace1 + 'setColumns(grdMain);\n' +
-	wSpace1 + 'grdMain.setOptions({\n' +
-	wSpace2 + 'edit: {\n' + 
-	wSpace2 + wSpace1 + 'insertable: true,\n' +
-	wSpace2 + wSpace1 + 'appendable: true\n' +
-	wSpace2 + '}\n' + 
-	wSpace1 + '})\n' +
 	'})\n\n'
 	return ready;
 }
@@ -590,9 +584,23 @@ function createColumns() {
 	}
 	addColumns += ']\n\n' +
 	wSpace1 + 'grid.setColumns(columns);\n' +
-	'}\n'
+	'}\n\n'
 	return addColumns;
 }
+
+//배열 랜덤 정렬
+function arrayShuffle(oldArray) {
+    var newArray = oldArray.slice();
+    var len = newArray.length;
+    var i = len;
+    while (i--) {
+        var p = parseInt(Math.random()*len);
+        var t = newArray[i];
+        newArray[i] = newArray[p];
+        newArray[p] = t;
+    }
+    return newArray;
+};
 
 function fullSource() {
 	grdMain.commit();
@@ -603,14 +611,18 @@ function fullSource() {
 }
 
 function buidPreview() {
-	fullSource();
 	var designerView = getHtml();
 	var iframe = document.getElementById("resultGrid");
 	var doc = iframe.contentDocument;
 
- 	doc.open();
-  	doc.write(designerView);
-  	doc.close();
+		doc.open();
+ 		doc.value = "";
+  		doc.close();
+
+		doc.open();
+  		doc.write(designerView);
+  		doc.close();
+    
 }
 
 // editorDesigner
@@ -932,7 +944,7 @@ function saveTextAsFile(){
 	<input id="inputFileNameToSaveAs">
 	<input type="button" onclick="saveTextAsFile()" value="Save Text to File">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
-	<textarea id="sourceCode"readonly="readonly" rows="30" cols="82">
+	<textarea id="sourceCode" rows="30" cols="82">
 	</textarea>
 </div>
 <div id="contents">
