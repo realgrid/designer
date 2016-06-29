@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Test View</title>
+
+        <script type="text/javascript" src="/scripts/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="/scripts/realgridjs-lic.js"></script>
+
+        <script type="text/javascript" src="/scripts/realgridjs_eval.1.1.16.min.js"></script>
+        <script type="text/javascript" src="/scripts/realgridjs-api.1.1.16.js"></script>
+        <script type="text/javascript" src="/scripts/jszip.min.js"></script>
+
+        <script src="realgrid-designer/realgrid-designer.js"></script>
+    </head>
+    <script>
+        var codeEditer;
+        var viewer;
+
+        $(document).ready(function() {
+
+            realGridDesigner.create("/scripts", "designer");
+            var sourceCode = realGridDesigner.getSourceCode();
+            console.log(sourceCode);
+            $("#codeEditer").text(sourceCode);
+
+            $("#addColumn").click(funciton() {
+                realGridDesigner.addColumn();
+            })
+        });
+    </script>
+    <body>
+
+        <div class="row">
+            <div class="col12">
+                <button id="addColumn">addColumn</button>
+                <div id="designer" style="width: 100%; height: 300px;"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col6">
+                <div>
+                    <textarea  id="codeEditer" rows="30" cols="82"></textarea>
+                </div>
+            </div>
+            <div class="col6">
+                <div id="viewer"></div>
+            </div>
+        </div>
+    </body>
+</html>
