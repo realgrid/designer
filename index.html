@@ -118,6 +118,9 @@ $(document).ready( function() {
 				grdMain.setValue(itemIndex,"field6","")
 			}
 		}
+		if (field == 10){
+			grdMain.setValue(itemIndex,"field1",newValue)
+		}
 	};
 
 })
@@ -128,23 +131,23 @@ function setLookups(grid) {
         id: "sampleData",
         levels: 2,
         keys: [
-            ["text", "이름"],
-            ["text", "성별"],
-            ["text", "주소"],
-            ["text", "자동차 종류"],
-            ["text", "주민번호"],
-            ["text", "출신 대학교"],
-            ["boolean", "결혼 유무"],
-            ["boolean", "군필"],
-            ["number", "나이"],
-            ["number", "주민번호"],
-            ["number", "급여"],
-            ["number", "자녀수"],
-            ["number", "우편번호"],
-            ["number", "학번"],
-            ["datetime", "생일"],
-            ["datetime", "결혼기념일"],
-            ["dropdown", "dropdown"]
+            ["text", "name"],
+            ["text", "gender"],
+            ["text", "street"],
+            ["text", "city"],
+            ["text", "securityText"],
+            ["text", "university"],
+            ["boolean", "marriage"],
+            ["boolean", "veteran"],
+            ["number", "age"],
+            ["number", "securityNumber"],
+            ["number", "pay"],
+            ["number", "children"],
+            ["number", "streetNumber"],
+            ["number", "id"],
+            ["datetime", "birthday"],
+            ["datetime", "anniversary"],
+            ["dropdown", "drop"]
         ],
         values: [
             "이름",
@@ -643,9 +646,19 @@ function createColumns() {
 	}
 	addColumns += ']\n\n' +
 	wSpace1 + 'grid.setColumns(columns);\n' +
-	'}\n\n'
+	'}\n\n' +
+	'function sampleDataLoad(grid) {\n' +
+	wSpace1 + '$.ajax({\n' +    
+    wSpace1 + wSpace1 + 'url:"/designerSampleData.json",\n ' +
+    wSpace1 + wSpace1 + 'success:function(data){ \n' +
+	wSpace1 + wSpace1 + wSpace1 + 'dataProvider.fillJsonData(data, { quoted: false, start: 0})\n' +
+    wSpace1 + wSpace1 + '}\n' +
+	wSpace1 + '}); \n' +
+	'}\n'
+
 	return addColumns;
 }
+
 
 //배열 랜덤 정렬
 function arrayShuffle(oldArray) {
@@ -944,14 +957,9 @@ function saveTextAsFile(){
 	downloadLink.click();
 }
 
-function blockKey(item){
-if(event.keyCode==9) {
-item.focus();
-space = " ";
-item.selection=document.selection.createRange();
-item.selection.text=space;
-event.returnValue = false; 
-} 
+
+function sampleDataLoad() {
+	$('#resultGrid')[0].contentWindow.sampleDataLoad();
 }
 
 </script>
@@ -984,12 +992,14 @@ event.returnValue = false;
 	<input id="inputFileNameToSaveAs">
 	<input type="button" onclick="saveTextAsFile()" value="Save Text to File">
 	<input type="button" onclick="javascript:fullSource();" value="코드 생성"><br/></span>
-	<textarea id="sourceCode" onkeydown="blockKey(this);" rows="30" cols="82">
+	<textarea id="sourceCode" rows="30" cols="82">
 	</textarea>
 </div>
 <div id="contents">
 	<center><h4>RealGrid 출력화면 미리보기</h4></center>
-	<input type="button" onclick="javascript:buidPreview();" value="출력화면 미리보기"><br/>
+	<input type="button" onclick="javascript:buidPreview();" value="출력화면 미리보기">
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="button" onclick="javascript:sampleDataLoad();" value="샘플 데이터 보기"><br/>
 	<iframe id="resultGrid" style="width:600px; height:49%"></iframe>
 </div>
 
