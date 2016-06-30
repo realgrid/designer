@@ -646,15 +646,7 @@ function createColumns() {
 	}
 	addColumns += ']\n\n' +
 	wSpace1 + 'grid.setColumns(columns);\n' +
-	'}\n\n' +
-	'function sampleDataLoad(grid) {\n' +
-	wSpace1 + '$.ajax({\n' +    
-    wSpace1 + wSpace1 + 'url:"/designerSampleData.json",\n ' +
-    wSpace1 + wSpace1 + 'success:function(data){ \n' +
-	wSpace1 + wSpace1 + wSpace1 + 'dataProvider.fillJsonData(data, { quoted: false, start: 0})\n' +
-    wSpace1 + wSpace1 + '}\n' +
-	wSpace1 + '}); \n' +
-	'}\n'
+	'}\n\n'
 
 	return addColumns;
 }
@@ -959,7 +951,12 @@ function saveTextAsFile(){
 
 
 function sampleDataLoad() {
-	$('#resultGrid')[0].contentWindow.sampleDataLoad();
+	$.ajax({
+        url:"/designerSampleData.json",
+        success:function(data){ 
+			$('#resultGrid')[0].contentWindow.dataProvider.fillJsonData(data, { quoted: false, start: 0});
+        }
+    });
 }
 
 </script>
