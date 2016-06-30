@@ -5,19 +5,10 @@ var realGridDesigner = (function() {
 
 
 
-
-
-
-
     function _addColumn() {
+        console.log(_gridView)
         _gridView.beginAppendRow();
     }
-
-
-
-
-
-
 
 
     return {

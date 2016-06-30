@@ -75,7 +75,8 @@ $(document).ready( function() {
 	setOptions(grdMain);
 	sortingOptions(grdMain);
 	designerDisplay();
-
+	setLookups(grdMain);
+ 
 	grdMain.onCellButtonClicked =  function (grid, itemIndex, column) {
 		cellButtonItemIndex = itemIndex;
 		designerDisplay();
@@ -121,6 +122,52 @@ $(document).ready( function() {
 
 })
 
+function setLookups(grid) {
+    // inital lookup value
+    grid.setLookups([{
+        id: "sampleData",
+        levels: 2,
+        keys: [
+            ["text", "이름"],
+            ["text", "성별"],
+            ["text", "주소"],
+            ["text", "자동차 종류"],
+            ["text", "주민번호"],
+            ["text", "출신 대학교"],
+            ["boolean", "결혼 유무"],
+            ["boolean", "군필"],
+            ["number", "나이"],
+            ["number", "주민번호"],
+            ["number", "급여"],
+            ["number", "자녀수"],
+            ["number", "우편번호"],
+            ["number", "학번"],
+            ["datetime", "생일"],
+            ["datetime", "결혼기념일"],
+            ["dropdown", "dropdown"]
+        ],
+        values: [
+            "이름",
+            "성별",
+            "주소",
+            "자동차 종류",
+            "주민번호",
+            "출신 대학교",
+            "결혼 유무",
+            "군필",
+            "나이",
+            "주민번호",
+            "급여",
+            "자녀수",
+            "우편번호",
+            "학번",            
+            "생일",
+            "결혼기념일",
+            "dropdown"
+        ]
+    }]);
+}
+
 function setFields(provider) {
 	var fields = [{
 		fieldName: "field1"
@@ -143,6 +190,8 @@ function setFields(provider) {
 		fieldName: "field9"
 	}, {
 		fieldName: "field10"
+	}, {
+		fieldName: "field11"
 	}];
 
 	provider.setFields(fields);
@@ -245,6 +294,19 @@ function setColumns(grid) {
 		},
 		visible: false,
 		width: 50
+	}, {
+		name: "col11",
+		fieldName: "field11",
+		header: {
+			text: "data"
+		},
+		lookupSourceId: "sampleData",
+        lookupKeyFields: ["field5", "field11"],
+        editor: {
+            "type": "dropDown",
+            "dropDownCount": 6
+        },
+		width: 100
 	}]
 
 	grid.setColumns(columns);
@@ -261,7 +323,7 @@ function designerDisplay() {
 	var datetimeSD = document.getElementById('datetimeStyleDesigner');
 	var directDSD = document.getElementById('directDSF');
 	var styleDesigner = document.getElementById('styleDesigner');
-	
+
 	dateD.style.display = "none";
 	booleanD.style.display = "none";
 	dropdownD.style.display = "none";
