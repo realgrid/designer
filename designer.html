@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style type="text/css">
+ul.tabs {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    height: 32px;
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    width: 100%;
+    font-family:"dotum";
+    font-size:12px;
+}
+ul.tabs li {
+    float: left;
+    text-align:center;
+    cursor: pointer;
+    width:110px;
+    height: 31px;
+    line-height: 31px;
+    border: 1px solid #eee;
+    border-left: none;
+    font-weight: bold;
+    background: #fafafa;
+    overflow: hidden;
+    position: relative;
+}
+ul.tabs li.active {
+    background: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+}
+.tab_container {
+    border: 1px solid #eee;
+    border-top: none;
+    clear: both;
+    float: left;
+    width: 100%;
+    background: #FFFFFF;
+}
+.tab_content {
+    padding: 5px;
+    font-size: 12px;
+    display: none;
+}
+.tab_container .tab_content ul {
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.tab_container .tab_content ul li {
+    padding:5px;
+    list-style:none
+};
+
+#container {
+    width: 249px;
+    margin: 0 auto;
+}
+
+textarea {
+  border:1px solid #999999;
+  width:100%;
+  margin:5px 0;
+  padding:3px;
+}
+.circlePlus {
+ width: 75px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+.circleMinus {
+ width: 75px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+.resultView {
+ width: 200px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+</style>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<script type="text/javascript" src="/scripts/jquery-1.11.2.min.js"></script>
+	<script type="text/javascript" src="/scripts/realgridjs-lic.js"></script>
+
+	<script type="text/javascript" src="/scripts/realgridjs_eval.1.1.16.min.js"></script>
+	<script type="text/javascript" src="/scripts/realgridjs-api.1.1.16.js"></script>
+	<script type="text/javascript" src="/scripts/jszip.min.js"></script>
+	<script type="text/javascript" src="/designerJS/realgridDesigner.js"></script>
+</head>
+<body>
+<center><h3>RealGrid Designer</h3></center> 
+<div class="col-md-12">
+	<div class="col-md-7">
+		<div style="height: 350px; width: 100%; border:1px solid gold;">
+		<iframe id="resultGrid" height="100%" width="100%"></iframe>
+		</div><br/>
+
+		<div style="height: 350px; width: 100%; border:1px solid gold;">
+			<div id="container">
+			    <ul class="tabs">
+                    <li class="active" rel="tab1">Full Source</li>
+			        <li rel="tab2">HTML</li>
+			        <li rel="tab3">JavaScript</li>
+			        <li rel="tab4">Field & Column</li>
+			        <li rel="tab5">Style</li>
+			        <li rel="tab6">Option</li>
+			        <li rel="tab7">Data</li>
+                    <li rel="tab7">Code Save</li>
+			    </ul>
+			    <div class="tab_container">
+                    <div id="tab1" class="tab_content"> 
+                        <textarea id="fullSource" rows="17" cols="17"></textarea>
+                    </div>
+			        <div id="tab2" class="tab_content">	
+			        	<textarea id="htmlCode" rows="17" cols="17"></textarea>
+			        </div>
+			        <div id="tab3" class="tab_content">
+			        	<textarea id="javscriptCode" rows="17" cols="17"></textarea>
+			        </div>
+			        <div id="tab4" class="tab_content">
+			        	<textarea id="fieldCode" rows="17" cols="17"></textarea>
+			        </div>
+			        <div id="tab5" class="tab_content">
+			        	<textarea id="styleCode" rows="17" cols="17"></textarea>
+			        </div>
+			        <div id="tab6" class="tab_content">
+			        	<textarea id="optionCode" rows="17" cols="17"></textarea>
+			        </div>
+			        <div id="tab7" class="tab_content">
+			        	<textarea id="dataCode" rows="17" cols="17"></textarea>
+			        </div>
+                    <div id="tab8" class="tab_content">
+                        
+                    </div>
+		    	</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-5">
+		<div style="height: 720px; width: 100%; border:1px solid gold;">
+            <span style='float:right'>
+			Grid Name:&nbsp;&nbsp;&nbsp;
+            <input type="text" id="divId" style="width:150px;" value="realgrid"> <br/> 
+			Labrary:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" id="libraryRoot" style="width:150px;" value="/scripts/"><br/>
+            realgridVersion:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="jsVersion" style="width:100px;">
+                <option>1.1.16</option>
+                <option>1.0.15</option>
+                <option>1.0.14</option>
+            </select><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="circleMinus" value="컬럼 삭제">
+            <input type="button" class="circlePlus" value="컬럼 추가">
+            </span><br/><br/>
+			<div id="designer" style="width:100%; height:250px"></div><br/><br/><br/><br/>
+			<div class="col-md-12">editor
+            </div><br/>
+            <center><input type="button" class="resultView" value="Full SoruceCode Create"></center>
+		</div>
+	</div>
+</div>
+
+<script>
+var codeEditor;
+var viewer;
+
+$(function () {
+
+    $(".tab_content").hide();
+    $(".tab_content:first").show();
+
+    $("ul.tabs li").click(function () {
+        $("ul.tabs li").removeClass("active").css("color", "#333");
+        $(this).addClass("active").css("color", "darkred");
+        $(".tab_content").hide()
+        var activeTab = $(this).attr("rel");
+        $("#" + activeTab).fadeIn()
+    });
+
+    $(".circlePlus").click(function() {
+        realGridDesigner.addColumn();
+    })
+    $(".circleMinus").click(function() {
+        realGridDesigner.delColumn();
+    })
+    $(".resultView").click(function() {
+        var full = _html();
+        $("#fullSource").text(full);
+
+        var iframe = document.getElementById("resultGrid");
+        var doc = iframe.contentDocument;
+
+        document.getElementById("resultGrid").contentWindow.location.reload(true);
+        setTimeout(realGridDesigner.restart(), 100);
+    })
+
+    realGridDesigner.create("/scripts", "designer");
+    realGridDesigner.setFields();
+    realGridDesigner.setColumns();
+    realGridDesigner.setOptions();
+
+});
+</script>
+</body>
+</html>
