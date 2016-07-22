@@ -75,13 +75,19 @@ textarea {
  border-radius: 50px;
 }
 .resultView {
- width: 200px;
+ width: 160px;
  height: 25px;
  background: rgba(255, 255, 255, 0.1);
  border-radius: 50px;
 }
 .dataLoad {
- width: 200px;
+ width: 160px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+.saveCode {
+ width: 120px;
  height: 25px;
  background: rgba(255, 255, 255, 0.1);
  border-radius: 50px;
