@@ -1,0 +1,82 @@
+ul.tabs {
+    margin: 0;
+    padding: 0;
+    float: left;
+    list-style: none;
+    height: 32px;
+    border-bottom: 1px solid #eee;
+    border-left: 1px solid #eee;
+    width: 100%;
+    font-family:"dotum";
+    font-size:12px;
+}
+ul.tabs li {
+    float: left;
+    text-align:center;
+    cursor: pointer;
+    width:110px;
+    height: 31px;
+    line-height: 31px;
+    border: 1px solid #eee;
+    border-left: none;
+    font-weight: bold;
+    background: #fafafa;
+    overflow: hidden;
+    position: relative;
+}
+ul.tabs li.active {
+    background: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
+}
+.tab_container {
+    border: 1px solid #eee;
+    border-top: none;
+    clear: both;
+    float: left;
+    width: 100%;
+    background: #FFFFFF;
+}
+.tab_content {
+    padding: 5px;
+    font-size: 12px;
+    display: none;
+}
+.tab_container .tab_content ul {
+    width:100%;
+    margin:0px;
+    padding:0px;
+}
+.tab_container .tab_content ul li {
+    padding:5px;
+    list-style:none
+};
+
+#container {
+    width: 249px;
+    margin: 0 auto;
+}
+
+textarea {
+  border:1px solid #999999;
+  width:100%;
+  margin:5px 0;
+  padding:3px;
+}
+.circlePlus {
+ width: 75px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+.circleMinus {
+ width: 75px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
+.resultView {
+ width: 200px;
+ height: 25px;
+ background: rgba(255, 255, 255, 0.1);
+ border-radius: 50px;
+}
