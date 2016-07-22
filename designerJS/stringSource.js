@@ -8,7 +8,7 @@ var _html = function() {
 	return html;
 }
 var _head = function() {
-	var sHead = '<head>\n<title> realgridDesignerVer0.1 </title>\n<meta charset="utf-8">\n';
+	var sHead = '<head>\n<title> realgridDesignerVer0.6 </title>\n<meta charset="utf-8">\n';
 	var eHead = '</head>\n'
 	var head = sHead.concat(eHead, _body());
 	return head;

@@ -32,7 +32,7 @@
 			        <li rel="tab5">Style</li>
 			        <li rel="tab6">Option</li>
 			        <li rel="tab7">Data</li>
-                    <li rel="tab7">Code Save</li>
+                    <li rel="tab8">Code Save</li>
 			    </ul>
 			    <div class="tab_container">
                     <div id="tab1" class="tab_content"> 
@@ -57,7 +57,11 @@
 			        	<textarea id="dataCode" rows="17" cols="17"></textarea>
 			        </div>
                     <div id="tab8" class="tab_content">
-                        
+                        <center><h4>RealGrid HTML Text 출력</h4><br/>
+                        FileName to Save As:
+                        <input id="inputFileNameToSaveAs">
+                        <input type="button" onclick="realGridDesigner.saveText()" value="Save Text to File">
+                        </center>
                     </div>
 		    	</div>
 			</div>
@@ -116,7 +120,7 @@ $(function () {
         realGridDesigner.delColumn();
     })
     $(".resultView").click(function() {
-        var full = _head();
+        var full = _html();
         $("#fullSource").text(full);
         $("#htmlCode").text(htmlCode());
         $("#javascriptCode").text(jsImportCode() + scriptCode());

@@ -23,7 +23,7 @@ var realGridDesigner = (function() {
     }
 
     var _saveText = function (){
-		var textToWrite = document.getElementById("sourceCode").value;
+		var textToWrite = document.getElementById("fullSource").value;
 		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
 		var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
 		var downloadLink = document.createElement("a");
