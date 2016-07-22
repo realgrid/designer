@@ -15,7 +15,7 @@ var fields = [{
 				fieldName: "field7"
 			}, {
 				fieldName: "field8"
-			}, {
+			}, { 
 				fieldName: "field9"
 			}, {
 				fieldName: "field10"

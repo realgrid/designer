@@ -4,10 +4,6 @@ var realGridDesigner = (function() {
 	var _gridView;
 	var _dataProvider;
 	var num = 0;
-	var wSpace1 = "    ";
-	var wSpace2 = "        ";
-	var cellButtonItemIndex;
-	
 	var _fullSource = function() {
 		gridView.commit();
 		dataProvider.clearRowStates();
@@ -30,7 +26,6 @@ var realGridDesigner = (function() {
 		var textToWrite = document.getElementById("sourceCode").value;
 		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
 		var fileNameToSaveAs = document.getElementById("inputFileNameToSaveAs").value;
-
 		var downloadLink = document.createElement("a");
 		downloadLink.download = fileNameToSaveAs;
 		downloadLink.innerHTML = "Download File";
@@ -45,7 +40,6 @@ var realGridDesigner = (function() {
 
 		downloadLink.click();
 	}
-
 //
 	return  {
 		gridView: _gridView,

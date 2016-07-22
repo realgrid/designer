@@ -2,7 +2,7 @@
 <html>
 <head>
 <style type="text/css">
-@import url("/styles/designerStyles.css");
+@import url("/styles/designerStyles.css"); 
 </style>
 	<title></title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -42,7 +42,7 @@
 			        	<textarea id="htmlCode" rows="17" cols="17"></textarea>
 			        </div>
 			        <div id="tab3" class="tab_content">
-			        	<textarea id="javscriptCode" rows="17" cols="17"></textarea>
+			        	<textarea id="javascriptCode" rows="17" cols="17"></textarea>
 			        </div>
 			        <div id="tab4" class="tab_content">
 			        	<textarea id="fieldCode" rows="17" cols="17"></textarea>
@@ -80,11 +80,14 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <input type="button" class="circleMinus" value="컬럼 삭제">
             <input type="button" class="circlePlus" value="컬럼 추가">
-            </span><br/><br/>
+            </span><br/>
 			<div id="designer" style="width:100%; height:250px"></div><br/><br/><br/><br/>
-			<div class="col-md-12">editor
+			<div class="col-md-12">option
+            <div id="editor" class="designer" style="width:100%; height:315px; border:1px solid gold;">
+            </div> 
             </div><br/>
-            <center><input type="button" class="resultView" value="Full SoruceCode Create"></center>
+            <center><input type="button" class="resultView" value="Full SoruceCode Create">&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="dataLoad" value="load Data"></center>
 		</div>
 	</div>
 </div>
@@ -115,6 +118,9 @@ $(function () {
     $(".resultView").click(function() {
         var full = _head();
         $("#fullSource").text(full);
+        $("#htmlCode").text(htmlCode());
+        $("#javascriptCode").text(jsImportCode() + scriptCode());
+        $("#fieldCode").text(createFieldsCode() + createColumnsCode());
 
         var iframe = document.getElementById("resultGrid");
         var doc = iframe.contentDocument;
@@ -129,6 +135,8 @@ $(function () {
     realGridDesigner.setOptions();
 
     gridView.setSelectOptions({style:"rows"})
+
+    
 
 });
 </script>
